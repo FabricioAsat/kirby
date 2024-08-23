@@ -9,7 +9,6 @@ export const k = kaboom({
   letterbox: true,
 });
 
-load.fonts();
 load.assets();
 load.sounds();
 load.music();
@@ -21,8 +20,13 @@ const scenes = {
   main: () => {
     UI.displayMain();
   },
-  menu: () => {},
-  dorsLevel: () => {},
+  menu: () => {
+    UI.displayMenu();
+  },
+  controls: () => {
+    UI.displayControls();
+  },
+  levelSelection: () => {},
   level1: () => {},
   level2: () => {},
 };
