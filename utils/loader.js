@@ -23,6 +23,14 @@ import jumpImage from "../assets/images/backgrounds/controls/jump.png";
 import controlAbsorbImage from "../assets/images/backgrounds/controls/x-absorb.png";
 import absorbImage from "../assets/images/backgrounds/controls/absorb.png";
 
+// Images - Level Selection Stage 1
+import levelSelectionStage1Tileset from "../assets/images/sprites/level-selection-stage1-tileset.png";
+import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
+import blockSprite from "../assets/images/sprites/block.png";
+
+// Animations
+import kirbySprites from "../assets/images/animations/kirby-sprites.png";
+
 // Sounds
 import confirmUiSound from "../assets/sounds/confirm-ui.wav";
 import buttonHoveredSound from "../assets/sounds/button-hovered.wav";
@@ -61,6 +69,61 @@ export const load = {
     k.loadSprite("jump", jumpImage);
     k.loadSprite("x-absorb", controlAbsorbImage);
     k.loadSprite("absorb", absorbImage);
+
+    // Level Selection Stage 1
+    k.loadSprite("level-selection-bg", levelSelectionBg);
+    k.loadSprite("block-sprite", blockSprite);
+    k.loadSprite("level-selection-stage-1-tileset", levelSelectionStage1Tileset, {
+      sliceX: 4,
+      sliceY: 5,
+      anims: {
+        "top-left-grass": 0,
+        "top-middle-grass": 1,
+        "top-right-grass": 2,
+        "middle-top-right-grass": 3,
+        "middle-top-left-grass": 4,
+        "full-ground": 5,
+        "medium-ground": 6,
+        "empty-ground": 7,
+        "middle-left-ground": 8,
+        "middle-middle-ground": 9,
+        "middle-right-ground": 10,
+        "bottom-left-ground": 11,
+        "bottom-middle-ground": 12,
+        "bottom-right-ground": 13,
+        "top-left-brick": 14,
+        "top-middle-brick": 15,
+        "top-right-brick": 16,
+        "bottom-left-brick": 17,
+        "bottom-middle-brick": 18,
+        "bottom-right-brick": 19,
+      },
+    });
+
+    // Animations
+    k.loadSprite("kirby", kirbySprites, {
+      sliceX: 16,
+      sliceY: 16,
+      anims: {
+        idle: { from: 0, to: 9, loop: true, speed: 5 },
+        walk: { from: 16, to: 25, loop: true, speed: 13 },
+        run: { from: 32, to: 39, loop: true, speed: 20 },
+        jump: { from: 48, to: 48, loop: true, speed: 1 },
+        fall: { from: 64, to: 65, loop: true, speed: 13 },
+        crouched: { from: 80, to: 80, loop: true, speed: 1 },
+        "start-absorb": { from: 96, to: 98, loop: false, speed: 13 },
+        absorb: { from: 98, to: 100, loop: true, speed: 13 },
+        hurt: { from: 112, to: 120, loop: false, speed: 13 },
+        swallow: { from: 128, to: 135, loop: false, speed: 13 },
+        sleep: { from: 144, to: 158, loop: false, speed: 5 },
+        full: { from: 160, to: 163, loop: true, speed: 13 },
+        "full-walk": { from: 176, to: 191, loop: true, speed: 13 },
+        "full-jump": { from: 192, to: 192, loop: true, speed: 1 },
+        "full-fall": { from: 208, to: 208, loop: true, speed: 1 },
+        "full-hurt": { from: 224, to: 227, loop: false, speed: 13 },
+        "split-star": { from: 240, to: 244, loop: false, speed: 1 },
+      },
+    });
   },
 
   sounds: () => {

@@ -27,20 +27,8 @@ class UIManager {
   // Hace el menu
   displayMain() {
     k.add([k.sprite("menu-bg")]);
-    k.add([
-      k.sprite("menu-title-logo"),
-      k.scale(0.75),
-      k.area(),
-      k.anchor("center"),
-      k.pos(k.center().x, k.center().y - 120),
-    ]);
-    k.add([
-      k.sprite("press-enter"),
-      k.scale(1.2),
-      k.area(),
-      k.anchor("center"),
-      k.pos(k.center().x, k.center().y + 200),
-    ]);
+    k.add([k.sprite("menu-title-logo"), k.scale(0.75), k.area(), k.anchor("center"), k.pos(k.center().x, k.center().y - 120)]);
+    k.add([k.sprite("press-enter"), k.scale(1.2), k.area(), k.anchor("center"), k.pos(k.center().x, k.center().y + 200)]);
 
     // Game resolution: 1280x720 pixels
     k.add([
@@ -76,38 +64,16 @@ class UIManager {
   // Menu de opciones
   displayMenu() {
     k.add([k.sprite("menu-bg")]);
-    k.add([
-      k.sprite("game-select"),
-      k.scale(1.5),
-      k.pos(k.center().x, 50),
-      k.anchor("top"),
-    ]);
+    k.add([k.sprite("game-select"), k.scale(1.5), k.pos(k.center().x, 50), k.anchor("top")]);
 
-    this.cuteMenuButtons(
-      "start-game",
-      k.vec2(k.center().x, k.center().y - 50),
-      "levelSelection"
-    );
-    this.cuteMenuButtons(
-      "view-controls",
-      k.vec2(k.center().x, k.center().y + 75),
-      "controls"
-    );
-    this.cuteMenuButtons(
-      "quit-game",
-      k.vec2(k.center().x, k.center().y + 200),
-      "limbo"
-    );
+    this.cuteMenuButtons("start-game", k.vec2(k.center().x, k.center().y - 50), "levelSelection");
+    this.cuteMenuButtons("view-controls", k.vec2(k.center().x, k.center().y + 75), "controls");
+    this.cuteMenuButtons("quit-game", k.vec2(k.center().x, k.center().y + 200), "limbo");
   }
 
   displayControls() {
     k.add([k.sprite("menu-bg")]);
-    k.add([
-      k.sprite("controls"),
-      k.scale(1.5),
-      k.pos(k.center().x, 50),
-      k.anchor("top"),
-    ]);
+    k.add([k.sprite("controls"), k.scale(1.5), k.pos(k.center().x, 50), k.anchor("top")]);
 
     // Left side
     this.cuteControlButton("f-up", k.vec2(150, 300), "up", 400);
@@ -115,24 +81,9 @@ class UIManager {
     this.cuteControlButton("f-left", k.vec2(150, 500), "left", 400);
     this.cuteControlButton("f-right", k.vec2(150, 600), "right", 400);
     // Right side
-    this.cuteControlButton(
-      "z-jump",
-      k.vec2(k.center().x + 150, 300),
-      "jump",
-      400
-    );
-    this.cuteControlButton(
-      "x-absorb",
-      k.vec2(k.center().x + 150, 400),
-      "absorb",
-      400
-    );
-    this.cuteMenuButtons(
-      "back-menu",
-      k.vec2(k.center().x, k.center().y * 2 - 50),
-      "menu",
-      350
-    );
+    this.cuteControlButton("z-jump", k.vec2(k.center().x + 150, 300), "jump", 400);
+    this.cuteControlButton("x-absorb", k.vec2(k.center().x + 150, 400), "absorb", 400);
+    this.cuteMenuButtons("back-menu", k.vec2(k.center().x, k.center().y * 2 - 50), "menu", 350);
   }
 
   // ! Helpers
@@ -147,16 +98,10 @@ class UIManager {
       k.opacity(0.8),
       k.state("normal", ["normal", "hovered"]),
     ]);
-    k.add([
-      k.sprite(sprite),
-      k.scale(1),
-      k.pos(button.pos),
-      k.anchor("center"),
-    ]);
+    k.add([k.sprite(sprite), k.scale(1), k.pos(button.pos), k.anchor("center")]);
 
     button.onClick(() => {
-      if (sceneToChange !== "controls" && sceneToChange !== "menu")
-        this.music.stop();
+      if (sceneToChange !== "controls" && sceneToChange !== "menu") this.music.stop();
       k.setCursor("default");
       k.play("confirm-ui");
       k.go(sceneToChange);
@@ -191,19 +136,9 @@ class UIManager {
       k.color(k.Color.fromHex("#f7daea")),
       k.outline(4, k.Color.fromHex("#d74894")),
     ]);
-    k.add([
-      k.sprite(spriteButton),
-      k.scale(0.85),
-      k.pos(button.pos),
-      k.anchor("center"),
-    ]);
+    k.add([k.sprite(spriteButton), k.scale(0.85), k.pos(button.pos), k.anchor("center")]);
 
-    k.add([
-      k.sprite(spriteName),
-      k.scale(1),
-      k.pos(k.vec2(button.pos.x + marginX, button.pos.y)),
-      k.anchor("center"),
-    ]);
+    k.add([k.sprite(spriteName), k.scale(1), k.pos(k.vec2(button.pos.x + marginX, button.pos.y)), k.anchor("center")]);
   }
 }
 
