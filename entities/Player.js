@@ -8,6 +8,7 @@ export class Player {
   isMoving = false;
   heightDelta = 0;
   isRunning = false;
+  isAbsorbing = false;
 
   constructor(posX, posY, speed, jumpForce, numberLives, currentLevelScene, isInTerminalScene) {
     this.currentLevelScene = currentLevelScene;
@@ -63,13 +64,19 @@ export class Player {
       this.isMoving = true;
     });
 
-    k.onKeyPress("z", () => {
-      if (k.isKeyDown("x")) return;
-      this.gameObj.jump(this.jumpForce);
-      k.play("jump");
+    k.onKeyDown("x", () => {
+      this.isMoving = false;
+      if (this.isAbsorbing) return;
+      if (this.gameObj.curAnim() !== "start-absorb")
+        this.gameObj.play("start-absorb", {
+          onEnd: () => {
+            this.isAbsorbing = true;
+          },
+        });
     });
 
     k.onKeyDown("shift", () => {
+      if (k.isKeyDown("x")) return;
       if (!this.gameObj.isGrounded()) {
         this.isRunning = false;
         this.speed = levelSelectConfig.kirbySpeed;
@@ -79,16 +86,28 @@ export class Player {
       this.speed = 450;
     });
 
+    k.onKeyPress("z", () => {
+      if (k.isKeyDown("x")) return;
+      this.gameObj.jump(this.jumpForce);
+      k.play("jump");
+    });
+
     //
     k.onKeyRelease(() => {
       // if (this.gameObj.paused) return;
       if (k.isKeyReleased("right") || k.isKeyReleased("left")) {
         this.isMoving = false;
+        if (this.isAbsorbing) return;
         this.gameObj.play("idle");
       }
       if (k.isKeyReleased("shift")) {
         this.isRunning = false;
         this.speed = levelSelectConfig.kirbySpeed;
+        if (this.isAbsorbing) return;
+      }
+
+      if (k.isKeyReleased("x")) {
+        this.isAbsorbing = false;
       }
     });
   }
@@ -114,13 +133,16 @@ export class Player {
       this.heightDelta = this.previousHeight - this.gameObj.pos.y;
       this.previousHeight = this.gameObj.pos.y;
 
+      if (!this.isMoving && this.gameObj.curAnim() !== "absorb" && this.isAbsorbing) {
+        this.gameObj.play("absorb");
+      }
       if (!this.gameObj.isGrounded() && this.heightDelta > 0 && this.gameObj.curAnim() !== "jump") {
         this.gameObj.play("jump");
       }
       if (!this.gameObj.isGrounded() && this.heightDelta < 0 && this.gameObj.curAnim() !== "fall") {
         this.gameObj.play("fall");
       }
-      if (!this.isMoving && this.gameObj.curAnim() !== "idle" && this.heightDelta === 0) {
+      if (!this.isMoving && this.gameObj.curAnim() !== "idle" && this.heightDelta === 0 && !k.isKeyDown("x")) {
         this.gameObj.play("idle");
       }
       if (this.isMoving && this.gameObj.curAnim() !== "run" && this.isRunning && this.heightDelta === 0) {
