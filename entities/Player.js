@@ -1,9 +1,13 @@
+import { levelSelectConfig } from "../content/levelSelection/config";
 import { k } from "../main";
 
 export class Player {
-  startAbsorbingEnded = false;
   isFull = false;
   isJumpOnce = false;
+  previousHeight;
+  isMoving = false;
+  heightDelta = 0;
+  isRunning = false;
 
   constructor(posX, posY, speed, jumpForce, numberLives, currentLevelScene, isInTerminalScene) {
     this.currentLevelScene = currentLevelScene;
@@ -16,6 +20,7 @@ export class Player {
     this.speed = speed;
     this.jumpForce = jumpForce;
     this.numberLives = numberLives;
+    this.previousHeight = this.gameObj.pos.y;
     // Falta una variable, revisar luego.
   }
 
@@ -35,64 +40,67 @@ export class Player {
     k.onKeyDown("left", () => {
       if (k.isKeyDown("x")) return;
       if (k.isKeyDown("right") && k.isKeyDown("left")) {
-        this.gameObj.play("idle");
+        this.isMoving = false;
+        if (this.gameObj.curAnim() !== "idle") this.gameObj.play("idle");
         return;
       }
-      if (this.gameObj.curAnim() !== "walk") this.gameObj.play("walk");
+      if (this.gameObj.curAnim() !== "walk" && this.heightDelta === 0 && !this.isRunning) this.gameObj.play("walk");
       this.gameObj.flipX = true;
+      this.isMoving = true;
       this.gameObj.move(-this.speed, 0);
     });
 
     k.onKeyDown("right", () => {
       if (k.isKeyDown("x")) return;
       if (k.isKeyDown("left") && k.isKeyDown("right")) {
-        this.gameObj.play("idle");
+        this.isMoving = false;
+        if (this.gameObj.curAnim() !== "idle") this.gameObj.play("idle");
         return;
       }
-      if (this.gameObj.curAnim() !== "walk") this.gameObj.play("walk");
+      if (this.gameObj.curAnim() !== "walk" && this.heightDelta === 0 && !this.isRunning) this.gameObj.play("walk");
       this.gameObj.flipX = false;
       this.gameObj.move(this.speed, 0);
+      this.isMoving = true;
     });
 
     k.onKeyPress("z", () => {
       if (k.isKeyDown("x")) return;
       this.gameObj.jump(this.jumpForce);
-
-      if (this.isJumpOnce) {
-        this.isFull = true;
-        this.gameObj.play("full");
-      } else this.gameObj.play("jump");
+      k.play("jump");
     });
 
-    k.onKeyPress("x", () => {
-      if (this.gameObj.curAnim() !== "start-absorb") {
-        this.gameObj.play("start-absorb", {
-          onEnd: () => {
-            k.onKeyDown("x", () => {
-              if (this.gameObj.curAnim() !== "absorb") {
-                this.gameObj.play("absorb");
-              }
-            });
-          },
-        });
+    k.onKeyDown("shift", () => {
+      if (!this.gameObj.isGrounded()) {
+        this.isRunning = false;
+        this.speed = levelSelectConfig.kirbySpeed;
+        return;
       }
+      this.isRunning = true;
+      this.speed = 450;
     });
 
     //
     k.onKeyRelease(() => {
-      if (this.gameObj.paused) return;
-      if (k.isKeyReleased("right") || k.isKeyReleased("left") || k.isKeyReleased("x")) {
+      // if (this.gameObj.paused) return;
+      if (k.isKeyReleased("right") || k.isKeyReleased("left")) {
+        this.isMoving = false;
         this.gameObj.play("idle");
+      }
+      if (k.isKeyReleased("shift")) {
+        this.isRunning = false;
+        this.speed = levelSelectConfig.kirbySpeed;
       }
     });
   }
 
+  // Resetea al juegador al spawnpoint
   respawnPlayer() {
     if (this.numberLives > 0) {
       this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
     }
   }
 
+  // Código para pasar por sobre las hitbox al saltar
   enablePassthrough() {
     this.gameObj.onBeforePhysicsResolve((collision) => {
       if (collision.target.is("passthrough") && this.gameObj.isJumping()) {
@@ -103,7 +111,22 @@ export class Player {
 
   update() {
     k.onUpdate(() => {
-      //   TODO - Poner límites al mapa
+      this.heightDelta = this.previousHeight - this.gameObj.pos.y;
+      this.previousHeight = this.gameObj.pos.y;
+
+      if (!this.gameObj.isGrounded() && this.heightDelta > 0 && this.gameObj.curAnim() !== "jump") {
+        this.gameObj.play("jump");
+      }
+      if (!this.gameObj.isGrounded() && this.heightDelta < 0 && this.gameObj.curAnim() !== "fall") {
+        this.gameObj.play("fall");
+      }
+      if (!this.isMoving && this.gameObj.curAnim() !== "idle" && this.heightDelta === 0) {
+        this.gameObj.play("idle");
+      }
+      if (this.isMoving && this.gameObj.curAnim() !== "run" && this.isRunning && this.heightDelta === 0) {
+        this.gameObj.play("run");
+        k.play("run");
+      }
     });
   }
 }

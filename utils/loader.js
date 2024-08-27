@@ -34,6 +34,8 @@ import kirbySprites from "../assets/images/animations/kirby-sprites.png";
 // Sounds
 import confirmUiSound from "../assets/sounds/confirm-ui.wav";
 import buttonHoveredSound from "../assets/sounds/button-hovered.wav";
+import kirbyJumpSound from "../assets/sounds/kirby-jump.wav";
+import kirbyRunSound from "../assets/sounds/kirby-run.wav";
 
 // Musics
 import mainMenuMusic from "../assets/sounds/main-menu.mp3";
@@ -129,6 +131,8 @@ export const load = {
   sounds: () => {
     k.loadSound("confirm-ui", confirmUiSound);
     k.loadSound("button-hovered", buttonHoveredSound);
+    k.loadSound("jump", kirbyJumpSound);
+    k.loadSound("run", kirbyRunSound);
   },
 
   music: () => {
