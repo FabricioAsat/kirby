@@ -168,6 +168,10 @@ export class Player {
 
   update() {
     k.onUpdate(() => {
+      if (this.gameObj.pos.y > 768 + (24 - 16) * (16 * 3)) {
+        this.respawnPlayer();
+      }
+
       this.heightDelta = this.previousHeight - this.gameObj.pos.y;
       this.previousHeight = this.gameObj.pos.y;
 
