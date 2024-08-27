@@ -48,9 +48,12 @@ const scenes = {
     );
     kirby.update();
     kirby.enablePassthrough();
+    UI.displayHUDKirby(kirby);
 
     const camera = new Camera();
     camera.attach(kirby, 40, 24);
+
+    kirby.updateHUD(UI.livesCountUI);
   },
   level1: () => {},
   level2: () => {},

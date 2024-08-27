@@ -22,6 +22,7 @@ export class Player {
     this.speed = speed;
     this.jumpForce = jumpForce;
     this.numberLives = numberLives;
+    this.health = 7;
     this.previousHeight = this.gameObj.pos.y;
     // Falta una variable, revisar luego.
   }
@@ -236,6 +237,12 @@ export class Player {
         this.gameObj.play("run");
         k.play("run");
       }
+    });
+  }
+
+  updateHUD(healthCountUI) {
+    onUpdate(() => {
+      healthCountUI.text = `${this.numberLives > 9 ? "x" + this.numberLives : "x0" + this.numberLives}`;
     });
   }
 }

@@ -22,14 +22,21 @@ import controlJumpImage from "../assets/images/backgrounds/controls/z-jump.png";
 import jumpImage from "../assets/images/backgrounds/controls/jump.png";
 import controlAbsorbImage from "../assets/images/backgrounds/controls/x-absorb.png";
 import absorbImage from "../assets/images/backgrounds/controls/absorb.png";
+import controlRunImage from "../assets/images/backgrounds/controls/shift.png";
+import runImage from "../assets/images/backgrounds/controls/run.png";
 
 // Images - Level Selection Stage 1
 import levelSelectionStage1Tileset from "../assets/images/sprites/level-selection-stage1-tileset.png";
 import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
 import blockSprite from "../assets/images/sprites/block.png";
+import doorSprite from "../assets/images/sprites/door.png";
+import numbersSprites from "../assets/images/sprites/numbers.png";
 
 // Animations
 import kirbySprites from "../assets/images/animations/kirby-sprites.png";
+import kirbyLives from "../assets/images/sprites/kirby-lives.png";
+import kirbyHealth from "../assets/images/sprites/health.png";
+import starSprites from "../assets/images/sprites/star.png";
 
 // Sounds
 import confirmUiSound from "../assets/sounds/confirm-ui.wav";
@@ -71,10 +78,50 @@ export const load = {
     k.loadSprite("jump", jumpImage);
     k.loadSprite("x-absorb", controlAbsorbImage);
     k.loadSprite("absorb", absorbImage);
+    k.loadSprite("shift-run", controlRunImage);
+    k.loadSprite("run", runImage);
 
     // Level Selection Stage 1
     k.loadSprite("level-selection-bg", levelSelectionBg);
     k.loadSprite("block-sprite", blockSprite);
+    k.loadSprite("kirby-lives", kirbyLives);
+    k.loadSprite("kirby-health", kirbyHealth);
+    k.loadSprite("door", doorSprite, {
+      sliceX: 4,
+      sliceY: 1,
+      anims: {
+        "top-left-door": 2,
+        "top-right-door": 3,
+        "bottom-left-door": 0,
+        "bottom-right-door": 1,
+      },
+    });
+    k.loadSprite("star", starSprites, {
+      sliceX: 4,
+      sliceY: 1,
+      anims: {
+        "star-1": 0,
+        "star-1": 1,
+        "star-1": 2,
+        "star-1": 3,
+      },
+    });
+
+    k.loadSprite("numbers", numbersSprites, {
+      sliceX: 8,
+      sliceY: 1,
+      anims: {
+        "left-1": 0,
+        "right-1": 1,
+        "left-2": 2,
+        "right-2": 3,
+        "left-3": 4,
+        "right-3": 5,
+        "left-4": 6,
+        "right-4": 7,
+      },
+    });
+
     k.loadSprite("level-selection-stage-1-tileset", levelSelectionStage1Tileset, {
       sliceX: 4,
       sliceY: 5,
@@ -108,21 +155,21 @@ export const load = {
       sliceY: 16,
       anims: {
         idle: { from: 0, to: 9, loop: true, speed: 5 },
-        walk: { from: 16, to: 25, loop: true, speed: 13 },
+        walk: { from: 16, to: 25, loop: true, speed: 16 },
         run: { from: 32, to: 39, loop: true, speed: 20 },
         jump: { from: 48, to: 48, loop: true, speed: 1 },
-        fall: { from: 64, to: 65, loop: true, speed: 13 },
+        fall: { from: 64, to: 65, loop: true, speed: 24 },
         crouched: { from: 80, to: 80, loop: true, speed: 1 },
-        "start-absorb": { from: 96, to: 98, loop: false, speed: 13 },
-        absorb: { from: 98, to: 100, loop: true, speed: 13 },
-        hurt: { from: 112, to: 120, loop: false, speed: 13 },
-        swallow: { from: 128, to: 135, loop: false, speed: 13 },
+        "start-absorb": { from: 96, to: 98, loop: false, speed: 24 },
+        absorb: { from: 98, to: 100, loop: true, speed: 24 },
+        hurt: { from: 112, to: 120, loop: false, speed: 24 },
+        swallow: { from: 128, to: 245, loop: false, speed: 24 },
         sleep: { from: 144, to: 158, loop: false, speed: 5 },
-        full: { from: 160, to: 163, loop: true, speed: 13 },
-        "full-walk": { from: 176, to: 191, loop: true, speed: 13 },
+        full: { from: 160, to: 163, loop: true, speed: 24 },
+        "full-walk": { from: 176, to: 191, loop: true, speed: 24 },
         "full-jump": { from: 192, to: 192, loop: true, speed: 1 },
         "full-fall": { from: 208, to: 208, loop: true, speed: 1 },
-        "full-hurt": { from: 224, to: 227, loop: false, speed: 13 },
+        "full-hurt": { from: 224, to: 227, loop: false, speed: 24 },
         "split-star": { from: 240, to: 244, loop: false, speed: 24 },
       },
     });

@@ -83,7 +83,36 @@ class UIManager {
     // Right side
     this.cuteControlButton("z-jump", k.vec2(k.center().x + 150, 300), "jump", 400);
     this.cuteControlButton("x-absorb", k.vec2(k.center().x + 150, 400), "absorb", 400);
+    this.cuteControlButton("shift-run", k.vec2(k.center().x + 150, 500), "run", 475, 225);
     this.cuteMenuButtons("back-menu", k.vec2(k.center().x, k.center().y * 2 - 50), "menu", 350);
+  }
+
+  displayHUDKirby(player) {
+    const rectHUD = k.add([
+      k.rect(1280, 100),
+      k.pos(0, 768 - 50),
+      k.anchor("left"),
+      k.color(k.Color.fromHex("#000000")),
+      k.area(),
+      k.opacity(0.25),
+      k.fixed(),
+    ]);
+
+    this.livesCountUI = rectHUD.add([
+      k.text(`${player.numberLives}`, {
+        font: "Arial",
+        size: 48,
+      }),
+      k.pos(350, 6),
+      k.anchor("left"),
+      k.fixed(),
+      k.color(k.Color.fromHex("#f7daea")),
+    ]);
+    rectHUD.add([k.sprite("kirby-lives"), k.pos(250, 0), k.scale(1.5), k.anchor("left"), k.fixed()]);
+
+    for (let i = 0; i < player.health; i++) {
+      rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * i, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]);
+    }
   }
 
   // ! Helpers
@@ -127,9 +156,9 @@ class UIManager {
     });
   }
 
-  cuteControlButton(spriteButton, posButton, spriteName, marginX) {
+  cuteControlButton(spriteButton, posButton, spriteName, marginX, width = 75) {
     const button = k.add([
-      k.rect(75, 75, { radius: 10 }), // Tamaño del botón (ancho, alto)
+      k.rect(width, 75, { radius: 10 }), // Tamaño del botón (ancho, alto)
       k.pos(posButton), // Posición en el centro de la pantalla
       k.anchor("center"), // Origen en el centro del botón
       k.area(), // Habilitar la detección de clics

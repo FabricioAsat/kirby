@@ -59,5 +59,18 @@ export function generateMappings(tileType) {
     i: () => [k.sprite(tileType, { anim: "bottom-right-ground" }), k.offscreen()],
     j: () => [k.sprite(tileType, { anim: "middle-top-right-grass" }), k.offscreen()],
     "*": () => [k.sprite("block-sprite"), k.area({ shape: new k.Rect(k.vec2(0), 16, 16) }), k.body({ isStatic: true }), k.offscreen()],
+    "(": () => [k.sprite("door", { anim: "top-left-door" }), k.offscreen(), "door"],
+    ")": () => [k.sprite("door", { anim: "top-right-door" }), k.offscreen(), "door"],
+    "[": () => [k.sprite("door", { anim: "bottom-left-door" }), k.offscreen(), "door"],
+    "]": () => [k.sprite("door", { anim: "bottom-right-door" }), k.offscreen(), "door"],
+
+    "!": () => [k.sprite("numbers", { anim: "left-1" }), k.offscreen()],
+    "#": () => [k.sprite("numbers", { anim: "right-1" }), k.offscreen()],
+    $: () => [k.sprite("numbers", { anim: "left-2" }), k.offscreen()],
+    "%": () => [k.sprite("numbers", { anim: "right-2" }), k.offscreen()],
+    "&": () => [k.sprite("numbers", { anim: "left-3" }), k.offscreen()],
+    "/": () => [k.sprite("numbers", { anim: "right-3" }), k.offscreen()],
+    "=": () => [k.sprite("numbers", { anim: "left-4" }), k.offscreen()],
+    "?": () => [k.sprite("numbers", { anim: "right-4" }), k.offscreen()],
   };
 }
