@@ -123,7 +123,7 @@ export const load = {
         "full-jump": { from: 192, to: 192, loop: true, speed: 1 },
         "full-fall": { from: 208, to: 208, loop: true, speed: 1 },
         "full-hurt": { from: 224, to: 227, loop: false, speed: 13 },
-        "split-star": { from: 240, to: 244, loop: false, speed: 1 },
+        "split-star": { from: 240, to: 244, loop: false, speed: 24 },
       },
     });
   },
