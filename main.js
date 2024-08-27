@@ -47,9 +47,10 @@ const scenes = {
       false
     );
     kirby.update();
+    kirby.enablePassthrough();
 
     const camera = new Camera();
-    camera.attach(kirby, 300, -100, false, false);
+    camera.attach(kirby, 40, 24);
   },
   level1: () => {},
   level2: () => {},

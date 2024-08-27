@@ -62,33 +62,19 @@ export class Player {
         this.isFull = true;
         this.gameObj.play("full");
       } else this.gameObj.play("jump");
-
-      this.isJumpOnce = true;
-      //   if (this.gameObj.isGrounded()) {}
     });
 
     k.onKeyPress("x", () => {
-      if (!this.isFull) {
-        if (this.gameObj.curAnim() !== "start-absorb") {
-          this.gameObj.play("start-absorb", {
-            onEnd: () => {
-              k.onKeyDown("x", () => {
-                if (this.gameObj.curAnim() !== "absorb") {
-                  this.gameObj.play("absorb");
-                }
-              });
-            },
-          });
-        }
-      } else {
-        if (this.gameObj.curAnim() !== "split-star")
-          this.gameObj.play("split-star", {
-            onEnd: () => {
-              //   this.gameObj.play("idle");
-              this.isJumpOnce = false;
-              this.isFull = false;
-            },
-          });
+      if (this.gameObj.curAnim() !== "start-absorb") {
+        this.gameObj.play("start-absorb", {
+          onEnd: () => {
+            k.onKeyDown("x", () => {
+              if (this.gameObj.curAnim() !== "absorb") {
+                this.gameObj.play("absorb");
+              }
+            });
+          },
+        });
       }
     });
 
@@ -105,6 +91,14 @@ export class Player {
     if (this.numberLives > 0) {
       this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
     }
+  }
+
+  enablePassthrough() {
+    this.gameObj.onBeforePhysicsResolve((collision) => {
+      if (collision.target.is("passthrough") && this.gameObj.isJumping()) {
+        collision.preventResolution();
+      }
+    });
   }
 
   update() {

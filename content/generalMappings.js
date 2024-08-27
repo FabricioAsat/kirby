@@ -58,6 +58,6 @@ export function generateMappings(tileType) {
     ],
     i: () => [k.sprite(tileType, { anim: "bottom-right-ground" }), k.offscreen()],
     j: () => [k.sprite(tileType, { anim: "middle-top-right-grass" }), k.offscreen()],
-    "*": () => [k.sprite("block-sprite"), k.area({ shape: new k.Rect(k.vec2(0), 16, 16) }), "passthrough", k.body({ isStatic: true }), k.offscreen()],
+    "*": () => [k.sprite("block-sprite"), k.area({ shape: new k.Rect(k.vec2(0), 16, 16) }), k.body({ isStatic: true }), k.offscreen()],
   };
 }
