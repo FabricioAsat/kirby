@@ -29,7 +29,7 @@ import runImage from "../assets/images/backgrounds/controls/run.png";
 import levelSelectionStage1Tileset from "../assets/images/sprites/level-selection-stage1-tileset.png";
 import level1Tileset from "../assets/images/sprites/level-1-tileset.png";
 import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
-import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.png";
+import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.jpg";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
 import numbersSprites from "../assets/images/sprites/numbers.png";
