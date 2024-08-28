@@ -27,7 +27,9 @@ import runImage from "../assets/images/backgrounds/controls/run.png";
 
 // Images - Level Selection Stage 1
 import levelSelectionStage1Tileset from "../assets/images/sprites/level-selection-stage1-tileset.png";
+import level1Tileset from "../assets/images/sprites/level-1-tileset.png";
 import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
+import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.png";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
 import numbersSprites from "../assets/images/sprites/numbers.png";
@@ -43,9 +45,14 @@ import confirmUiSound from "../assets/sounds/confirm-ui.wav";
 import buttonHoveredSound from "../assets/sounds/button-hovered.wav";
 import kirbyJumpSound from "../assets/sounds/kirby-jump.wav";
 import kirbyRunSound from "../assets/sounds/kirby-run.wav";
+import kirbyAbsorbSound from "../assets/sounds/kirby-absorb.wav";
+import kirbySplitAirSound from "../assets/sounds/kirby-split-air.wav";
 
 // Musics
 import mainMenuMusic from "../assets/sounds/main-menu.mp3";
+import levelSelectionMusic from "../assets/sounds/levelSelection.mp3";
+import level1Music from "../assets/sounds/level1.mp3";
+import level2Music from "../assets/sounds/level2.mp3";
 
 // Context
 import { k } from "../main";
@@ -83,6 +90,7 @@ export const load = {
 
     // Level Selection Stage 1
     k.loadSprite("level-selection-bg", levelSelectionBg);
+    k.loadSprite("level-1-bg", level1Bg);
     k.loadSprite("block-sprite", blockSprite);
     k.loadSprite("kirby-lives", kirbyLives);
     k.loadSprite("kirby-health", kirbyHealth);
@@ -148,6 +156,27 @@ export const load = {
         "bottom-right-brick": 19,
       },
     });
+    k.loadSprite("level-1-tileset", level1Tileset, {
+      sliceX: 3,
+      sliceY: 5,
+      anims: {
+        "top-left-grass": 0,
+        "top-middle-grass": 1,
+        "top-right-grass": 2,
+        "middle-left-grass": 3,
+        "middle-middle-grass": 4,
+        "middle-right-grass": 5,
+        "bottom-left-grass": 6,
+        "bottom-middle-grass": 7,
+        "bottom-right-grass": 8,
+        "left-grass": 9,
+        "middle-grass": 10,
+        "right-grass": 11,
+        "grass-1": 12,
+        "grass-2": 13,
+        "grass-3": 14,
+      },
+    });
 
     // Animations
     k.loadSprite("kirby", kirbySprites, {
@@ -160,7 +189,7 @@ export const load = {
         jump: { from: 48, to: 48, loop: true, speed: 1 },
         fall: { from: 64, to: 65, loop: true, speed: 24 },
         crouched: { from: 80, to: 80, loop: true, speed: 1 },
-        "start-absorb": { from: 96, to: 98, loop: false, speed: 24 },
+        "start-absorb": { from: 96, to: 98, loop: false, speed: 12 },
         absorb: { from: 98, to: 100, loop: true, speed: 24 },
         hurt: { from: 112, to: 120, loop: false, speed: 24 },
         swallow: { from: 128, to: 245, loop: false, speed: 24 },
@@ -180,9 +209,14 @@ export const load = {
     k.loadSound("button-hovered", buttonHoveredSound);
     k.loadSound("jump", kirbyJumpSound);
     k.loadSound("run", kirbyRunSound);
+    k.loadSound("absorb", kirbyAbsorbSound);
+    k.loadSound("split-air", kirbySplitAirSound);
   },
 
   music: () => {
     k.loadSound("main-menu-music", mainMenuMusic);
+    k.loadSound("level-selection-music", levelSelectionMusic);
+    k.loadSound("level-1-music", level1Music);
+    k.loadSound("level-2-music", level2Music);
   },
 };

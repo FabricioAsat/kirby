@@ -1,8 +1,8 @@
 import { k } from "../main";
 
 export class Level {
-  drawMapLayout(levelLayout, mappings) {
-    const layerSettings = { tileWidth: 16, tileHeight: 16, tiles: mappings };
+  drawMapLayout(levelLayout, mappings, tileWidth = 16, tileHeight = 16, scale = 3) {
+    const layerSettings = { tileWidth: tileWidth, tileHeight: tileHeight, tiles: mappings };
 
     this.map = [];
     for (const layerLayout of levelLayout) {
@@ -10,7 +10,7 @@ export class Level {
     }
 
     for (const layer of this.map) {
-      layer.use(k.scale(3));
+      layer.use(k.scale(scale));
     }
   }
 

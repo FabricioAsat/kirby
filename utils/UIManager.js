@@ -18,7 +18,7 @@ class UIManager {
     ]);
 
     k.onKeyPress("enter", () => {
-      this.music = k.play("main-menu-music", { volume: 0.2, loop: true });
+      // this.music = k.play("main-menu-music", { volume: 0.2, loop: true });
       k.play("confirm-ui");
       k.go("main");
     });
@@ -130,7 +130,7 @@ class UIManager {
     k.add([k.sprite(sprite), k.scale(1), k.pos(button.pos), k.anchor("center")]);
 
     button.onClick(() => {
-      if (sceneToChange !== "controls" && sceneToChange !== "menu") this.music.stop();
+      // if (sceneToChange !== "controls" && sceneToChange !== "menu") this.music.stop();
       k.setCursor("default");
       k.play("confirm-ui");
       k.go(sceneToChange);

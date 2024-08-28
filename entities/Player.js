@@ -1,5 +1,6 @@
 import { levelSelectConfig } from "../content/levelSelection/config";
 import { k } from "../main";
+import { DOORS_POSITIONS, MAX_Y_DISTANCE_FOR_RESPAWN } from "../utils/constants";
 
 export class Player {
   isFull = false;
@@ -11,7 +12,10 @@ export class Player {
   isAbsorbing = false;
   isSpliting = false;
 
+  absorbingSound = k.play("absorb");
+
   constructor(posX, posY, speed, jumpForce, numberLives, currentLevelScene, isInTerminalScene) {
+    this.absorbingSound.stop();
     this.currentLevelScene = currentLevelScene;
     this.isInTerminalScene = isInTerminalScene;
     this.initialXPos = posX;
@@ -97,12 +101,13 @@ export class Player {
       if (!this.isFull) {
         this.isMoving = false;
         if (this.isAbsorbing) return;
-        if (this.gameObj.curAnim() !== "start-absorb")
+        if (this.gameObj.curAnim() !== "start-absorb") {
           this.gameObj.play("start-absorb", {
             onEnd: () => {
               this.isAbsorbing = true;
             },
           });
+        }
       } else {
         this.isSpliting = true;
         this.isMoving = false;
@@ -128,7 +133,7 @@ export class Player {
         this.isFull = true;
       }
       this.gameObj.jump(this.jumpForce);
-      k.play("jump");
+      k.play("jump", { speed: 1.5 });
     });
 
     //
@@ -147,6 +152,7 @@ export class Player {
 
       if (k.isKeyReleased("x")) {
         this.isAbsorbing = false;
+        this.absorbingSound.stop();
       }
     });
   }
@@ -169,7 +175,7 @@ export class Player {
 
   update() {
     k.onUpdate(() => {
-      if (this.gameObj.pos.y > 768 + (24 - 16) * (16 * 3)) {
+      if (this.gameObj.pos.y > 768 + (30 - 16) * 48) {
         this.respawnPlayer();
       }
 
@@ -178,17 +184,20 @@ export class Player {
 
       if (!this.isMoving && this.gameObj.curAnim() !== "absorb" && this.isAbsorbing) {
         this.gameObj.play("absorb");
+        this.absorbingSound.play();
       }
 
       if (!this.gameObj.isGrounded() && this.heightDelta > 0) {
         if (this.isSpliting) {
-          if (this.gameObj.curAnim() !== "split-star")
+          if (this.gameObj.curAnim() !== "split-star") {
+            k.play("split-air", { speed: 1.5 });
             this.gameObj.play("split-star", {
               onEnd: () => {
                 this.isSpliting = false;
                 this.isFull = false;
               },
             });
+          }
         } else {
           if (!this.isFull) {
             if (this.gameObj.curAnim() !== "jump") this.gameObj.play("jump");
@@ -200,13 +209,15 @@ export class Player {
 
       if (!this.gameObj.isGrounded() && this.heightDelta < 0) {
         if (this.isSpliting) {
-          if (this.gameObj.curAnim() !== "split-star")
+          if (this.gameObj.curAnim() !== "split-star") {
+            k.play("split-air", { speed: 1.5 });
             this.gameObj.play("split-star", {
               onEnd: () => {
                 this.isSpliting = false;
                 this.isFull = false;
               },
             });
+          }
         } else {
           if (!this.isFull) {
             if (this.gameObj.curAnim() !== "fall") this.gameObj.play("fall");
@@ -220,13 +231,15 @@ export class Player {
           if (this.gameObj.curAnim() !== "idle") this.gameObj.play("idle");
         } else {
           if (this.isSpliting) {
-            if (this.gameObj.curAnim() !== "split-star")
+            if (this.gameObj.curAnim() !== "split-star") {
+              k.play("split-air", { speed: 1.5 });
               this.gameObj.play("split-star", {
                 onEnd: () => {
                   this.isSpliting = false;
                   this.isFull = false;
                 },
               });
+            }
           } else {
             if (this.gameObj.curAnim() !== "full") this.gameObj.play("full");
           }
@@ -238,11 +251,27 @@ export class Player {
         k.play("run");
       }
     });
+    this.updateLevelSelected();
   }
 
   updateHUD(healthCountUI) {
-    onUpdate(() => {
+    k.onUpdate(() => {
       healthCountUI.text = `${this.numberLives > 9 ? "x" + this.numberLives : "x0" + this.numberLives}`;
+    });
+  }
+
+  updateLevelSelected() {
+    k.onUpdate(() => {
+      if (this.currentLevelScene === "levelSelection") {
+        if (
+          Math.round(this.gameObj.pos.x) >= DOORS_POSITIONS.level1.xl &&
+          Math.round(this.gameObj.pos.x) <= DOORS_POSITIONS.level1.xr &&
+          Math.round(this.gameObj.pos.y) === DOORS_POSITIONS.level1.y &&
+          k.isKeyPressed("up")
+        ) {
+          k.go("level1");
+        }
+      }
     });
   }
 }

@@ -1,6 +1,6 @@
-import { k } from "../main";
+import { k } from "../../main";
 
-export function generateMappings(tileType) {
+export function generateMappingsLevelSelection(tileType) {
   return {
     0: () => [
       k.sprite(tileType, { anim: "top-left-grass" }),

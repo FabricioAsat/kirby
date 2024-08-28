@@ -1,6 +1,6 @@
-import { generateMappings } from "../generalMappings";
+import { generateMappingsLevelSelection } from "./generateMapping";
 
-export const levelSelectionStage1Mappings = generateMappings("level-selection-stage-1-tileset");
+export const levelSelectionStage1Mappings = generateMappingsLevelSelection("level-selection-stage-1-tileset");
 
 export const levelSelectionLayout = [
   [
