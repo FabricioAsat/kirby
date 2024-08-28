@@ -28,8 +28,10 @@ import runImage from "../assets/images/backgrounds/controls/run.png";
 // Images - Level Selection Stage 1
 import levelSelectionStage1Tileset from "../assets/images/sprites/level-selection-stage1-tileset.png";
 import level1Tileset from "../assets/images/sprites/level-1-tileset.png";
+import level2Tileset from "../assets/images/sprites/level-2-tileset.png";
 import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
 import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.jpg";
+import level2Bg from "../assets/images/backgrounds/levels/level-2-bg.jpg";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
 import numbersSprites from "../assets/images/sprites/numbers.png";
@@ -91,6 +93,7 @@ export const load = {
     // Level Selection Stage 1
     k.loadSprite("level-selection-bg", levelSelectionBg);
     k.loadSprite("level-1-bg", level1Bg);
+    k.loadSprite("level-2-bg", level2Bg);
     k.loadSprite("block-sprite", blockSprite);
     k.loadSprite("kirby-lives", kirbyLives);
     k.loadSprite("kirby-health", kirbyHealth);
@@ -157,6 +160,27 @@ export const load = {
       },
     });
     k.loadSprite("level-1-tileset", level1Tileset, {
+      sliceX: 3,
+      sliceY: 5,
+      anims: {
+        "top-left-grass": 0,
+        "top-middle-grass": 1,
+        "top-right-grass": 2,
+        "middle-left-grass": 3,
+        "middle-middle-grass": 4,
+        "middle-right-grass": 5,
+        "bottom-left-grass": 6,
+        "bottom-middle-grass": 7,
+        "bottom-right-grass": 8,
+        "left-grass": 9,
+        "middle-grass": 10,
+        "right-grass": 11,
+        "grass-1": 12,
+        "grass-2": 13,
+        "grass-3": 14,
+      },
+    });
+    k.loadSprite("level-2-tileset", level2Tileset, {
       sliceX: 3,
       sliceY: 5,
       anims: {

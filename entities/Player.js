@@ -271,6 +271,14 @@ export class Player {
         ) {
           k.go("level1");
         }
+        if (
+          Math.round(this.gameObj.pos.x) >= DOORS_POSITIONS.level2.xl &&
+          Math.round(this.gameObj.pos.x) <= DOORS_POSITIONS.level2.xr &&
+          Math.round(this.gameObj.pos.y) === DOORS_POSITIONS.level2.y &&
+          k.isKeyPressed("up")
+        ) {
+          k.go("level2");
+        }
       }
     });
   }
