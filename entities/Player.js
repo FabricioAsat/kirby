@@ -28,7 +28,7 @@ export class Player {
     this.speed = speed;
     this.jumpForce = jumpForce;
     this.numberLives = numberLives;
-    this.health = 7;
+    this.health = 3;
     this.previousHeight = this.gameObj.pos.y;
     // Falta una variable, revisar luego.
   }
@@ -173,8 +173,12 @@ export class Player {
 
   // Resetea al juegador al spawnpoint
   respawnPlayer() {
+    if (this.currentLevelScene === "levelSelection") {
+      this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
+      return;
+    }
     this.isDead = true;
-    if (this.numberLives < 0) {
+    if (this.numberLives <= 0) {
       k.play("game-over");
       setTimeout(() => {
         this.resetBooleans();
@@ -184,6 +188,8 @@ export class Player {
       k.play("lost-life");
       setTimeout(() => {
         this.resetBooleans();
+        this.numberLives--;
+        this.health = 3;
         this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
       }, 3000);
     }
@@ -200,6 +206,8 @@ export class Player {
 
   update() {
     k.onUpdate(() => {
+      // console.log(this.gameObj.pos);
+
       if (this.isDead) {
         if (this.gameObj.curAnim() !== "dead") this.gameObj.play("dead");
         k.setGravity(0);
@@ -219,7 +227,7 @@ export class Player {
         return;
       }
 
-      if (this.gameObj.pos.y > 768 + (24 - 16) * 48) {
+      if (this.gameObj.pos.y > 768 + (24 - 16) * 48 - 48) {
         this.respawnPlayer();
       }
 
@@ -302,7 +310,7 @@ export class Player {
     k.onUpdate(() => {
       if (this.numberLives >= 0) UI.livesCountUI.text = `${this.numberLives > 9 ? "x" + this.numberLives : "x0" + this.numberLives}`;
 
-      if (this.health > 0)
+      if (this.health >= 0)
         for (let index = 0; index < 7; index++) {
           if (index >= this.health) UI.healthCountUI[index].hidden = true;
           else UI.healthCountUI[index].hidden = false;
@@ -335,21 +343,17 @@ export class Player {
 
   checkCollisions() {
     async function substrackHealth(context) {
-      if (context.isDead) return;
+      if (context.isDead || !context.isVulnerable) return;
 
-      if (context.health === 1) {
-        context.numberLives--;
-        context.health = 7;
+      context.health--;
+      if (context.health === 0) {
         context.respawnPlayer();
         return;
       }
 
-      if (!context.isVulnerable) return;
-      context.gameObj.move(-5000, -1500);
       context.isVulnerable = false;
       context.hurtAnimFinished = false;
-      context.health--;
-      // context.move(-1200, 0);
+      context.gameObj.move(-3500, -1500);
       k.play("hurt", { volume: 0.25 });
       context.wasHurt = true;
 

@@ -4,5 +4,5 @@ export const levelSelectConfig = {
   yPos: 100,
   kirbySpeed: 300,
   kirbyJumpForce: 600,
-  kirbyLives: 3,
+  kirbyLives: 2,
 };
