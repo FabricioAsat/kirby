@@ -4,13 +4,15 @@ import { DOORS_POSITIONS, MAX_Y_DISTANCE_FOR_RESPAWN } from "../utils/constants"
 
 export class Player {
   isFull = false;
-  isJumpOnce = false;
   previousHeight;
   isMoving = false;
   heightDelta = 0;
   isRunning = false;
   isAbsorbing = false;
   isSpliting = false;
+  isVulnerable = true;
+  hurtAnimFinished = true;
+  isDead = false;
 
   absorbingSound = k.play("absorb");
 
@@ -39,12 +41,16 @@ export class Player {
       k.pos(this.initialXPos, this.initialYPos),
       k.scale(3),
       k.body(),
+      k.rotate(0),
+      k.opacity(1),
       "kirby-sprites",
     ]);
   }
 
   setPlayerControls() {
     k.onKeyDown("left", () => {
+      if (this.isDead) return;
+      if (!this.hurtAnimFinished) return;
       if (!this.isFull) {
         if (k.isKeyDown("x") || this.isSpliting) return;
         if (k.isKeyDown("right") && k.isKeyDown("left")) {
@@ -71,6 +77,8 @@ export class Player {
     });
 
     k.onKeyDown("right", () => {
+      if (this.isDead) return;
+      if (!this.hurtAnimFinished) return;
       if (!this.isFull) {
         if (k.isKeyDown("x") || this.isSpliting) return;
         if (k.isKeyDown("left") && k.isKeyDown("right")) {
@@ -98,6 +106,8 @@ export class Player {
     });
 
     k.onKeyDown("x", () => {
+      if (this.isDead) return;
+      if (!this.hurtAnimFinished) return;
       if (!this.isFull) {
         this.isMoving = false;
         if (this.isAbsorbing) return;
@@ -115,6 +125,8 @@ export class Player {
     });
 
     k.onKeyDown("shift", () => {
+      if (this.isDead) return;
+      if (!this.hurtAnimFinished) return;
       if (this.isFull) return;
       if (k.isKeyDown("x")) return;
       if (!this.gameObj.isGrounded()) {
@@ -127,6 +139,8 @@ export class Player {
     });
 
     k.onKeyPress("z", () => {
+      if (this.isDead) return;
+      if (!this.hurtAnimFinished) return;
       if (k.isKeyDown("x")) return;
       if (!this.gameObj.isGrounded() && this.gameObj.curAnim() !== "full") {
         this.gameObj.play("full");
@@ -159,8 +173,19 @@ export class Player {
 
   // Resetea al juegador al spawnpoint
   respawnPlayer() {
-    if (this.numberLives > 0) {
-      this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
+    this.isDead = true;
+    if (this.numberLives < 0) {
+      k.play("game-over");
+      setTimeout(() => {
+        this.resetBooleans();
+        k.go("levelSelection");
+      }, 3000);
+    } else {
+      k.play("lost-life");
+      setTimeout(() => {
+        this.resetBooleans();
+        this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
+      }, 3000);
     }
   }
 
@@ -175,7 +200,26 @@ export class Player {
 
   update() {
     k.onUpdate(() => {
-      if (this.gameObj.pos.y > 768 + (30 - 16) * 48) {
+      if (this.isDead) {
+        if (this.gameObj.curAnim() !== "dead") this.gameObj.play("dead");
+        k.setGravity(0);
+        return;
+      }
+
+      if (!this.hurtAnimFinished) {
+        if (this.isFull) {
+          if (this.gameObj.curAnim() !== "full-hurt") this.gameObj.play("full-hurt");
+        } else {
+          if (this.gameObj.curAnim() !== "hurt") this.gameObj.play("hurt");
+        }
+
+        setTimeout(() => {
+          this.hurtAnimFinished = true;
+        }, 500);
+        return;
+      }
+
+      if (this.gameObj.pos.y > 768 + (24 - 16) * 48) {
         this.respawnPlayer();
       }
 
@@ -254,9 +298,15 @@ export class Player {
     this.updateLevelSelected();
   }
 
-  updateHUD(healthCountUI) {
+  updateHUD(UI) {
     k.onUpdate(() => {
-      healthCountUI.text = `${this.numberLives > 9 ? "x" + this.numberLives : "x0" + this.numberLives}`;
+      if (this.numberLives >= 0) UI.livesCountUI.text = `${this.numberLives > 9 ? "x" + this.numberLives : "x0" + this.numberLives}`;
+
+      if (this.health > 0)
+        for (let index = 0; index < 7; index++) {
+          if (index >= this.health) UI.healthCountUI[index].hidden = true;
+          else UI.healthCountUI[index].hidden = false;
+        }
     });
   }
 
@@ -281,5 +331,49 @@ export class Player {
         }
       }
     });
+  }
+
+  checkCollisions() {
+    async function substrackHealth(context) {
+      if (context.isDead) return;
+
+      if (context.health === 1) {
+        context.numberLives--;
+        context.health = 7;
+        context.respawnPlayer();
+        return;
+      }
+
+      if (!context.isVulnerable) return;
+      context.gameObj.move(-5000, -1500);
+      context.isVulnerable = false;
+      context.hurtAnimFinished = false;
+      context.health--;
+      // context.move(-1200, 0);
+      k.play("hurt", { volume: 0.25 });
+      context.wasHurt = true;
+
+      // console.log(context);
+      for (let index = 0; index <= 15; index++) {
+        await k.tween(context.gameObj.opacity, 0, 0.075, (val) => (context.gameObj.opacity = val), k.easings.linear);
+        await k.tween(context.gameObj.opacity, 1, 0.075, (val) => (context.gameObj.opacity = val), k.easings.linear);
+        if (index === 15) context.isVulnerable = true;
+      }
+    }
+    this.gameObj.onCollide("fish", () => substrackHealth(this));
+  }
+
+  resetBooleans() {
+    this.isFull = false;
+    this.previousHeight;
+    this.isMoving = false;
+    this.heightDelta = 0;
+    this.isRunning = false;
+    this.isAbsorbing = false;
+    this.isSpliting = false;
+    this.isVulnerable = true;
+    this.hurtAnimFinished = true;
+    this.isDead = false;
+    k.setGravity(1400);
   }
 }

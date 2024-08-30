@@ -110,9 +110,15 @@ class UIManager {
     ]);
     rectHUD.add([k.sprite("kirby-lives"), k.pos(250, 0), k.scale(1.5), k.anchor("left"), k.fixed()]);
 
-    for (let i = 0; i < player.health; i++) {
-      rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * i, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]);
-    }
+    this.healthCountUI = {
+      0: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 0, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      1: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 1, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      2: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 2, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      3: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 3, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      4: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 4, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      5: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 5, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      6: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 6, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+    };
   }
 
   // ! Helpers

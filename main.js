@@ -10,6 +10,7 @@ import { level1Layout, level1Mappings } from "./content/levels/1/level1Layout.js
 import { level1Config } from "./content/levels/1/config.js";
 import { level2Config } from "./content/levels/2/config.js";
 import { level2Layout, level2Mappings } from "./content/levels/2/level2Layout.js";
+import { Fish } from "./entities/Fish.js";
 
 // Configuración básica de kaboom
 export const k = kaboom({
@@ -65,7 +66,7 @@ const scenes = {
     const camera = new Camera();
     camera.attach(kirby, 40, 24);
 
-    kirby.updateHUD(UI.livesCountUI);
+    kirby.updateHUD(UI);
   },
   level1: () => {
     ambientMusic.stop();
@@ -74,6 +75,12 @@ const scenes = {
     const level1 = new Level();
     level1.drawBackground("level-1-bg");
     level1.drawMapLayout(level1Layout, level1Mappings, 48, 48, 1);
+
+    const fish = new Fish(
+      level1Config.fishPositions.map((fishPos) => fishPos()),
+      level1Config.fishAmplitudes
+    );
+    fish.setMovementPattern();
 
     const kirby = new Player(
       level1Config.xPos,
@@ -86,12 +93,14 @@ const scenes = {
     );
     kirby.update();
     kirby.enablePassthrough();
+    kirby.checkCollisions();
+
     UI.displayHUDKirby(kirby);
 
     const camera = new Camera();
     camera.attach(kirby, 118, 24);
 
-    kirby.updateHUD(UI.livesCountUI);
+    kirby.updateHUD(UI);
   },
   level2: () => {
     ambientMusic.stop();
@@ -117,7 +126,7 @@ const scenes = {
     const camera = new Camera();
     camera.attach(kirby, 150, 24);
 
-    kirby.updateHUD(UI.livesCountUI);
+    kirby.updateHUD(UI);
   },
   level3: () => {},
   level4: () => {},

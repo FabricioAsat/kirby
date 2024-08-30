@@ -30,7 +30,7 @@ import levelSelectionStage1Tileset from "../assets/images/sprites/level-selectio
 import level1Tileset from "../assets/images/sprites/level-1-tileset.png";
 import level2Tileset from "../assets/images/sprites/level-2-tileset.png";
 import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
-import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.jpg";
+import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.png";
 import level2Bg from "../assets/images/backgrounds/levels/level-2-bg.jpg";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
@@ -38,6 +38,7 @@ import numbersSprites from "../assets/images/sprites/numbers.png";
 
 // Animations
 import kirbySprites from "../assets/images/animations/kirby-sprites.png";
+import fishSprites from "../assets/images/animations/fish-sprites.png";
 import kirbyLives from "../assets/images/sprites/kirby-lives.png";
 import kirbyHealth from "../assets/images/sprites/health.png";
 import starSprites from "../assets/images/sprites/star.png";
@@ -49,6 +50,9 @@ import kirbyJumpSound from "../assets/sounds/kirby-jump.wav";
 import kirbyRunSound from "../assets/sounds/kirby-run.wav";
 import kirbyAbsorbSound from "../assets/sounds/kirby-absorb.wav";
 import kirbySplitAirSound from "../assets/sounds/kirby-split-air.wav";
+import kirbyHurtSound from "../assets/sounds/kirby-hurt.wav";
+import kirbyLostLifeSound from "../assets/sounds/kirby-lost-life.wav";
+import kirbyGameOverSound from "../assets/sounds/kirby-game-over.wav";
 
 // Musics
 import mainMenuMusic from "../assets/sounds/main-menu.mp3";
@@ -216,6 +220,7 @@ export const load = {
         "start-absorb": { from: 96, to: 98, loop: false, speed: 12 },
         absorb: { from: 98, to: 100, loop: true, speed: 24 },
         hurt: { from: 112, to: 120, loop: false, speed: 24 },
+        dead: { from: 112, to: 112, loop: true, speed: 1 },
         swallow: { from: 128, to: 245, loop: false, speed: 24 },
         sleep: { from: 144, to: 158, loop: false, speed: 5 },
         full: { from: 160, to: 163, loop: true, speed: 24 },
@@ -224,6 +229,14 @@ export const load = {
         "full-fall": { from: 208, to: 208, loop: true, speed: 1 },
         "full-hurt": { from: 224, to: 227, loop: false, speed: 24 },
         "split-star": { from: 240, to: 244, loop: false, speed: 24 },
+      },
+    });
+    k.loadSprite("fish", fishSprites, {
+      sliceX: 8,
+      sliceY: 2,
+      anims: {
+        "swim-up": { from: 0, to: 3, loop: true, speed: 24 },
+        "swim-down": { from: 8, to: 15, loop: true, speed: 24 },
       },
     });
   },
@@ -235,6 +248,9 @@ export const load = {
     k.loadSound("run", kirbyRunSound);
     k.loadSound("absorb", kirbyAbsorbSound);
     k.loadSound("split-air", kirbySplitAirSound);
+    k.loadSound("hurt", kirbyHurtSound);
+    k.loadSound("lost-life", kirbyLostLifeSound);
+    k.loadSound("game-over", kirbyGameOverSound);
   },
 
   music: () => {
