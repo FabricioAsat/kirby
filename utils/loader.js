@@ -35,10 +35,13 @@ import level2Bg from "../assets/images/backgrounds/levels/level-2-bg.jpg";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
 import numbersSprites from "../assets/images/sprites/numbers.png";
+import enemyDestroySprites from "../assets/images/sprites/enemy-destroy.png";
 
 // Animations
 import kirbySprites from "../assets/images/animations/kirby-sprites.png";
 import fishSprites from "../assets/images/animations/fish-sprites.png";
+import birdSprites from "../assets/images/animations/bird-sprites.png";
+import superSprites from "../assets/images/animations/super-sprites.png";
 import kirbyLives from "../assets/images/sprites/kirby-lives.png";
 import kirbyHealth from "../assets/images/sprites/health.png";
 import starSprites from "../assets/images/sprites/star.png";
@@ -53,6 +56,7 @@ import kirbySplitAirSound from "../assets/sounds/kirby-split-air.wav";
 import kirbyHurtSound from "../assets/sounds/kirby-hurt.wav";
 import kirbyLostLifeSound from "../assets/sounds/kirby-lost-life.wav";
 import kirbyGameOverSound from "../assets/sounds/kirby-game-over.wav";
+import enemyDeadSound from "../assets/sounds/enemy-dead.wav";
 
 // Musics
 import mainMenuMusic from "../assets/sounds/main-menu.mp3";
@@ -134,6 +138,14 @@ export const load = {
         "right-3": 5,
         "left-4": 6,
         "right-4": 7,
+      },
+    });
+
+    k.loadSprite("enemy-destroy", enemyDestroySprites, {
+      sliceX: 2,
+      sliceY: 1,
+      anims: {
+        destroy: { from: 0, to: 1, loop: false, speed: 24 },
       },
     });
 
@@ -239,6 +251,23 @@ export const load = {
         "swim-down": { from: 8, to: 15, loop: true, speed: 24 },
       },
     });
+    k.loadSprite("bird", birdSprites, {
+      sliceX: 8,
+      sliceY: 1,
+      anims: {
+        fly: { from: 0, to: 7, loop: true, speed: 24 },
+      },
+    });
+    k.loadSprite("super", superSprites, {
+      sliceX: 7,
+      sliceY: 3,
+      anims: {
+        walk: { from: 0, to: 6, loop: true, speed: 12 },
+        fall: { from: 7, to: 8, loop: true, speed: 24 },
+        "jump-start": { from: 14, to: 15, loop: false, speed: 12 },
+        "jump-end": { from: 16, to: 16, loop: true, speed: 24 },
+      },
+    });
   },
 
   sounds: () => {
@@ -251,6 +280,7 @@ export const load = {
     k.loadSound("hurt", kirbyHurtSound);
     k.loadSound("lost-life", kirbyLostLifeSound);
     k.loadSound("game-over", kirbyGameOverSound);
+    k.loadSound("enemy-dead", enemyDeadSound);
   },
 
   music: () => {

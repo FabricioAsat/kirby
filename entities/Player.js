@@ -1,6 +1,6 @@
 import { levelSelectConfig } from "../content/levelSelection/config";
 import { k } from "../main";
-import { DOORS_POSITIONS, MAX_Y_DISTANCE_FOR_RESPAWN } from "../utils/constants";
+import { DOORS_POSITIONS } from "../utils/constants";
 
 export class Player {
   isFull = false;
@@ -43,7 +43,7 @@ export class Player {
       k.body(),
       k.rotate(0),
       k.opacity(1),
-      "kirby-sprites",
+      "kirby",
     ]);
   }
 
@@ -365,6 +365,11 @@ export class Player {
       }
     }
     this.gameObj.onCollide("fish", () => substrackHealth(this));
+    this.gameObj.onCollide("super", (eSuper) => {
+      substrackHealth(this);
+      k.play("enemy-dead", { volume: 0.5 });
+      k.destroy(eSuper);
+    });
   }
 
   resetBooleans() {
