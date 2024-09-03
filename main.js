@@ -12,6 +12,7 @@ import { level2Config } from "./content/levels/2/config.js";
 import { level2Layout, level2Mappings } from "./content/levels/2/level2Layout.js";
 import { Fish } from "./entities/Fish.js";
 import { E_Super } from "./entities/Super.js";
+import { Bird } from "./entities/Bird.js";
 
 // Configuración básica de kaboom
 export const k = kaboom({
@@ -81,11 +82,8 @@ const scenes = {
       level1Config.fishPositions.map((fishPos) => fishPos()),
       level1Config.fishAmplitudes
     );
-    fish.setMovementPattern();
-
     const eSupers = new E_Super(level1Config.eSuperPositions.map((superPos) => superPos()));
-    eSupers.setMovementPattern();
-
+    const birds = new Bird(level1Config.birdsPositions.map((superPos) => superPos()));
     const kirby = new Player(
       level1Config.xPos,
       level1Config.yPos,
@@ -95,6 +93,11 @@ const scenes = {
       "level1",
       false
     );
+
+    fish.setMovementPattern();
+    eSupers.setMovementPattern();
+    birds.setMovementPattern();
+
     kirby.update();
     kirby.enablePassthrough();
     kirby.checkCollisions();

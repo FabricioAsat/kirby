@@ -14,6 +14,7 @@ export class Fish {
           k.scale(3),
           k.state("launch", ["launch", "fall"]),
           k.offscreen({ hide: true }),
+          { isInhalable: false },
           "fish",
         ])
       );

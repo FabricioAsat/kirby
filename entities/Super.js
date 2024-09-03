@@ -14,7 +14,7 @@ export class E_Super {
           k.body(),
           k.state("wLeft", ["wLeft", "wRight", "fall", "sJump", "eJump"]),
           k.offscreen({ hide: true }),
-          { speed: 96, side: "left" },
+          { speed: 96, side: "left", isInhalable: false },
           "super",
         ])
       );

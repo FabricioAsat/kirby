@@ -4,6 +4,7 @@ import { DOORS_POSITIONS } from "../utils/constants";
 
 export class Player {
   isFull = false;
+  isFullEnemy = false;
   previousHeight;
   isMoving = false;
   heightDelta = 0;
@@ -13,6 +14,10 @@ export class Player {
   isVulnerable = true;
   hurtAnimFinished = true;
   isDead = false;
+  inhaleEffect = null;
+  inhaleZone = null;
+  direction = "right";
+  stopInhaleAnim = false;
 
   absorbingSound = k.play("absorb");
 
@@ -25,6 +30,7 @@ export class Player {
 
     this.makePlayer();
     this.setPlayerControls();
+    this.makeInhaleZone();
     this.speed = speed;
     this.jumpForce = jumpForce;
     this.numberLives = numberLives;
@@ -47,10 +53,29 @@ export class Player {
     ]);
   }
 
+  makeInhaleZone() {
+    this.inhaleEffect = k.add([k.sprite("inhale-effect", { anim: "inhale" }), k.pos(), k.scale(3), k.opacity(0), "inhaleEffect"]);
+    this.inhaleZone = this.gameObj.add([k.area({ shape: new k.Rect(k.vec2(9, -9), 40, 18) }), k.pos(), "inhaleZone"]);
+
+    this.inhaleZone.onUpdate(() => {
+      if (this.direction === "left") {
+        this.inhaleZone.pos = k.vec2(-(18 * 3), 0);
+        this.inhaleEffect.pos = k.vec2(this.gameObj.pos.x - 36 * 2 - 18 * 4, this.gameObj.pos.y - 18 * 3);
+        this.inhaleEffect.flipX = true;
+        return;
+      }
+      this.inhaleZone.pos = k.vec2(0, 0);
+      this.inhaleEffect.pos = k.vec2(this.gameObj.pos.x + 36, this.gameObj.pos.y - 18 * 3);
+      this.inhaleEffect.flipX = false;
+    });
+  }
+
   setPlayerControls() {
     k.onKeyDown("left", () => {
       if (this.isDead) return;
       if (!this.hurtAnimFinished) return;
+      this.direction = "left";
+
       if (!this.isFull) {
         if (k.isKeyDown("x") || this.isSpliting) return;
         if (k.isKeyDown("right") && k.isKeyDown("left")) {
@@ -79,6 +104,7 @@ export class Player {
     k.onKeyDown("right", () => {
       if (this.isDead) return;
       if (!this.hurtAnimFinished) return;
+      this.direction = "right";
       if (!this.isFull) {
         if (k.isKeyDown("x") || this.isSpliting) return;
         if (k.isKeyDown("left") && k.isKeyDown("right")) {
@@ -119,6 +145,10 @@ export class Player {
           });
         }
       } else {
+        if (this.stopInhaleAnim) {
+          this.isSpliting = false;
+          return;
+        }
         this.isSpliting = true;
         this.isMoving = false;
       }
@@ -146,8 +176,15 @@ export class Player {
         this.gameObj.play("full");
         this.isFull = true;
       }
-      this.gameObj.jump(this.jumpForce);
-      k.play("jump", { speed: 1.5 });
+      if (!this.isFullEnemy) {
+        this.gameObj.jump(this.jumpForce);
+        k.play("jump", { speed: 1.5 });
+      } else {
+        if (this.gameObj.isGrounded()) {
+          this.gameObj.jump(this.jumpForce);
+          k.play("jump", { speed: 1.5 });
+        }
+      }
     });
 
     //
@@ -166,6 +203,8 @@ export class Player {
 
       if (k.isKeyReleased("x")) {
         this.isAbsorbing = false;
+        this.inhaleEffect.opacity = 0;
+        this.stopInhaleAnim = false;
         this.absorbingSound.stop();
       }
     });
@@ -206,8 +245,6 @@ export class Player {
 
   update() {
     k.onUpdate(() => {
-      // console.log(this.gameObj.pos);
-
       if (this.isDead) {
         if (this.gameObj.curAnim() !== "dead") this.gameObj.play("dead");
         k.setGravity(0);
@@ -234,19 +271,34 @@ export class Player {
       this.heightDelta = this.previousHeight - this.gameObj.pos.y;
       this.previousHeight = this.gameObj.pos.y;
 
-      if (!this.isMoving && this.gameObj.curAnim() !== "absorb" && this.isAbsorbing) {
-        this.gameObj.play("absorb");
-        this.absorbingSound.play();
+      if (!this.isMoving && this.isAbsorbing) {
+        if (this.stopInhaleAnim) {
+          this.isFull = true;
+          this.isFullEnemy = true;
+          this.inhaleEffect.opacity = 0;
+          this.absorbingSound.stop();
+          this.isAbsorbing = false;
+          if (this.gameObj.curAnim() !== "full") this.gameObj.play("full");
+          return;
+        }
+        if (this.gameObj.curAnim() !== "absorb") {
+          this.gameObj.play("absorb");
+          this.inhaleEffect.opacity = 1;
+          this.absorbingSound.play();
+        }
       }
 
       if (!this.gameObj.isGrounded() && this.heightDelta > 0) {
         if (this.isSpliting) {
           if (this.gameObj.curAnim() !== "split-star") {
-            k.play("split-air", { speed: 1.5 });
+            if (this.isFullEnemy) k.play("split-air", { speed: 1.5 });
+            else k.play("split-air", { speed: 1.5 });
+
             this.gameObj.play("split-star", {
               onEnd: () => {
                 this.isSpliting = false;
                 this.isFull = false;
+                this.isFullEnemy = false;
               },
             });
           }
@@ -267,6 +319,7 @@ export class Player {
               onEnd: () => {
                 this.isSpliting = false;
                 this.isFull = false;
+                this.isFullEnemy = false;
               },
             });
           }
@@ -289,6 +342,7 @@ export class Player {
                 onEnd: () => {
                   this.isSpliting = false;
                   this.isFull = false;
+                  this.isFullEnemy = false;
                 },
               });
             }
@@ -364,12 +418,48 @@ export class Player {
         if (index === 15) context.isVulnerable = true;
       }
     }
-    this.gameObj.onCollide("fish", () => substrackHealth(this));
+
+    function makeInhalable(player, enemyName) {
+      player.inhaleZone.onCollide(enemyName, (enemy) => {
+        enemy.isInhalable = true;
+        enemy.onUpdate(() => {
+          if (player.isAbsorbing && enemy.isInhalable) {
+            player.stopInhaleAnim = true;
+
+            if (player.direction === "right") {
+              enemy.move(-9999, 0);
+              k.destroy(enemy);
+              return;
+            }
+            enemy.move(9999, 0);
+            k.destroy(enemy);
+          }
+        });
+      });
+      player.inhaleZone.onCollideEnd(enemyName, (enemy) => {
+        enemy.isInhalable = false;
+      });
+    }
+
     this.gameObj.onCollide("super", (eSuper) => {
       substrackHealth(this);
-      k.play("enemy-dead", { volume: 0.5 });
       k.destroy(eSuper);
+      if (!this.isFullEnemy) k.play("enemy-dead", { volume: 0.25 });
     });
+    this.gameObj.onCollide("fish", (fish) => {
+      substrackHealth(this);
+      k.destroy(fish);
+      if (!this.isFullEnemy) k.play("enemy-dead", { volume: 0.25 });
+    });
+    this.gameObj.onCollide("bird", (bird) => {
+      substrackHealth(this);
+      k.destroy(bird);
+      if (!this.isFullEnemy) k.play("enemy-dead", { volume: 0.25 });
+    });
+
+    makeInhalable(this, "super");
+    makeInhalable(this, "bird");
+    makeInhalable(this, "fish");
   }
 
   resetBooleans() {
@@ -385,4 +475,6 @@ export class Player {
     this.isDead = false;
     k.setGravity(1400);
   }
+
+  //
 }

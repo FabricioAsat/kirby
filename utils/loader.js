@@ -36,6 +36,7 @@ import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
 import numbersSprites from "../assets/images/sprites/numbers.png";
 import enemyDestroySprites from "../assets/images/sprites/enemy-destroy.png";
+import inhaleEffect from "../assets/images/sprites/inhale-effect.png";
 
 // Animations
 import kirbySprites from "../assets/images/animations/kirby-sprites.png";
@@ -146,6 +147,14 @@ export const load = {
       sliceY: 1,
       anims: {
         destroy: { from: 0, to: 1, loop: false, speed: 24 },
+      },
+    });
+
+    k.loadSprite("inhale-effect", inhaleEffect, {
+      sliceX: 3,
+      sliceY: 1,
+      anims: {
+        inhale: { from: 0, to: 2, loop: true, speed: 24 },
       },
     });
 
