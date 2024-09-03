@@ -407,6 +407,13 @@ export class Player {
 
       context.isVulnerable = false;
       context.hurtAnimFinished = false;
+
+      context.isFull = false;
+      context.isFullEnemy = false;
+      context.inhaleEffect.opacity = 0;
+      context.absorbingSound.stop();
+      context.isAbsorbing = false;
+
       context.gameObj.move(-3500, -1500);
       k.play("hurt", { volume: 0.25 });
       context.wasHurt = true;

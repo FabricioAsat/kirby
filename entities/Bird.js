@@ -27,12 +27,10 @@ export class Bird {
     for (const [index, bird] of this.birds.entries()) {
       bird.onUpdate(() => {
         bird.move(-this.speed, 0);
-        bird.pos.y = 100 + this.amplitude * Math.cos(bird.pos.x * this.frequency);
+        bird.pos.y = 300 + this.amplitude * Math.cos(bird.pos.x * this.frequency);
         if (bird.pos.x < 0) {
           bird.pos.x = 48 * 120;
         }
-
-        // console.log(bird.pos.x);
       });
     }
   }
