@@ -44,7 +44,7 @@ import fishSprites from "../assets/images/animations/fish-sprites.png";
 import birdSprites from "../assets/images/animations/bird-sprites.png";
 import superSprites from "../assets/images/animations/super-sprites.png";
 import kirbyLives from "../assets/images/sprites/kirby-lives.png";
-import kirbyHealth from "../assets/images/sprites/health.png";
+import kirbyHealth from "../assets/images/sprites/kirby-health.png";
 import starSprites from "../assets/images/sprites/star.png";
 
 // Sounds
