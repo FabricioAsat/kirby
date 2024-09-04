@@ -36,6 +36,7 @@ export class Fish {
       });
 
       fish.onCollide("shootingStar", (fish) => {
+        k.play("enemy-dead", { volume: 0.25 });
         k.destroy(fish);
       });
 

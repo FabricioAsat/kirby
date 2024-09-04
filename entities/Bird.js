@@ -4,8 +4,10 @@ export class Bird {
   amplitude = 100;
   frequency = 0.01;
   speed = 150;
+  pos;
 
   constructor(positions) {
+    this.pos = positions;
     this.birds = [];
     for (const position of positions) {
       this.birds.push(
@@ -27,12 +29,13 @@ export class Bird {
     for (const [index, bird] of this.birds.entries()) {
       bird.onUpdate(() => {
         bird.move(-this.speed, 0);
-        bird.pos.y = 300 + this.amplitude * Math.cos(bird.pos.x * this.frequency);
+        bird.pos.y = this.pos[index].y + this.amplitude * Math.cos(bird.pos.x * this.frequency);
         if (bird.pos.x < 0) {
           bird.pos.x = 48 * 120;
         }
       });
       bird.onCollide("shootingStar", (bird) => {
+        k.play("enemy-dead", { volume: 0.25 });
         k.destroy(bird);
       });
     }

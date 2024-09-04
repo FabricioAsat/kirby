@@ -93,6 +93,7 @@ export class E_Super {
       });
 
       eSuper.onCollide("shootingStar", (eSuper) => {
+        k.play("enemy-dead", { volume: 0.25 });
         k.destroy(eSuper);
       });
     }

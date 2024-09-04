@@ -16,5 +16,5 @@ export const level1Config = {
   fishAmplitudes: [800, 900, 1000, 500, 500, 500],
 
   eSuperPositions: [() => vec2(2875, 400), () => vec2(1344, 400), () => vec2(5712, 400)],
-  birdsPositions: [() => vec2(700, 0), () => vec2(1344, 0), () => vec2(5712, 0)],
+  birdsPositions: [() => vec2(700, 300), () => vec2(1344, 500), () => vec2(5712, 400)],
 };
