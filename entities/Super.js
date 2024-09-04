@@ -84,16 +84,16 @@ export class E_Super {
         }
       });
 
-      k.onUpdate(() => {
-        // console.log(eSuper.state);
-      });
-
       k.onSceneLeave(() => {
         wLeft.cancel();
         wRight.cancel();
         sJump.cancel();
         eJump.cancel();
         fall.cancel();
+      });
+
+      eSuper.onCollide("shootingStar", (eSuper) => {
+        k.destroy(eSuper);
       });
     }
   }

@@ -32,6 +32,9 @@ export class Bird {
           bird.pos.x = 48 * 120;
         }
       });
+      bird.onCollide("shootingStar", (bird) => {
+        k.destroy(bird);
+      });
     }
   }
 }

@@ -54,6 +54,7 @@ import kirbyJumpSound from "../assets/sounds/kirby-jump.wav";
 import kirbyRunSound from "../assets/sounds/kirby-run.wav";
 import kirbyAbsorbSound from "../assets/sounds/kirby-absorb.wav";
 import kirbySplitAirSound from "../assets/sounds/kirby-split-air.wav";
+import kirbySplitStarSound from "../assets/sounds/kirby-split-star.wav";
 import kirbyHurtSound from "../assets/sounds/kirby-hurt.wav";
 import kirbyLostLifeSound from "../assets/sounds/kirby-lost-life.wav";
 import kirbyGameOverSound from "../assets/sounds/kirby-game-over.wav";
@@ -120,10 +121,7 @@ export const load = {
       sliceX: 4,
       sliceY: 1,
       anims: {
-        "star-1": 0,
-        "star-1": 1,
-        "star-1": 2,
-        "star-1": 3,
+        star: { from: 0, to: 3, loop: true, speed: 24 },
       },
     });
 
@@ -286,6 +284,7 @@ export const load = {
     k.loadSound("run", kirbyRunSound);
     k.loadSound("absorb", kirbyAbsorbSound);
     k.loadSound("split-air", kirbySplitAirSound);
+    k.loadSound("split-star", kirbySplitStarSound);
     k.loadSound("hurt", kirbyHurtSound);
     k.loadSound("lost-life", kirbyLostLifeSound);
     k.loadSound("game-over", kirbyGameOverSound);

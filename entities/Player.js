@@ -16,6 +16,7 @@ export class Player {
   isDead = false;
   inhaleEffect = null;
   inhaleZone = null;
+  shootingStar = null;
   direction = "right";
   stopInhaleAnim = false;
 
@@ -74,10 +75,9 @@ export class Player {
     k.onKeyDown("left", () => {
       if (this.isDead) return;
       if (!this.hurtAnimFinished) return;
-      this.direction = "left";
-
       if (!this.isFull) {
         if (k.isKeyDown("x") || this.isSpliting) return;
+        this.direction = "left";
         if (k.isKeyDown("right") && k.isKeyDown("left")) {
           this.isMoving = false;
           if (this.gameObj.curAnim() !== "idle") this.gameObj.play("idle");
@@ -89,6 +89,7 @@ export class Player {
         this.gameObj.move(-this.speed, 0);
       } else {
         if (this.isSpliting) return;
+        this.direction = "left";
         if (k.isKeyDown("left") && k.isKeyDown("right")) {
           this.isMoving = false;
           if (this.gameObj.curAnim() !== "full") this.gameObj.play("full");
@@ -104,9 +105,9 @@ export class Player {
     k.onKeyDown("right", () => {
       if (this.isDead) return;
       if (!this.hurtAnimFinished) return;
-      this.direction = "right";
       if (!this.isFull) {
         if (k.isKeyDown("x") || this.isSpliting) return;
+        this.direction = "right";
         if (k.isKeyDown("left") && k.isKeyDown("right")) {
           this.isMoving = false;
           if (this.gameObj.curAnim() !== "idle") this.gameObj.play("idle");
@@ -118,6 +119,7 @@ export class Player {
         this.isMoving = true;
       } else {
         if (this.isSpliting) return;
+        this.direction = "right";
         if (k.isKeyDown("left") && k.isKeyDown("right")) {
           this.isMoving = false;
           if (this.gameObj.curAnim() !== "full") this.gameObj.play("full");
@@ -291,8 +293,31 @@ export class Player {
       if (!this.gameObj.isGrounded() && this.heightDelta > 0) {
         if (this.isSpliting) {
           if (this.gameObj.curAnim() !== "split-star") {
-            if (this.isFullEnemy) k.play("split-air", { speed: 1.5 });
-            else k.play("split-air", { speed: 1.5 });
+            if (this.isFullEnemy) {
+              k.play("split-star");
+              this.shootingStar = k.add([
+                k.sprite("star", {
+                  anim: "star",
+                  flipX: this.direction === "right",
+                }),
+                k.area({ shape: new k.Rect(k.vec2(0), 18, 18) }),
+                k.pos(this.direction === "left" ? this.gameObj.pos.x - 80 : this.gameObj.pos.x + 80, this.gameObj.pos.y),
+                k.scale(2.5),
+                k.anchor("center"),
+                k.offscreen({ destroy: true }),
+                this.direction === "left" ? k.move(k.LEFT, 800) : k.move(k.RIGHT, 800),
+                "shootingStar",
+              ]);
+              this.shootingStar.onCollide("super", (star) => {
+                k.destroy(star);
+              });
+              this.shootingStar.onCollide("fish", (star) => {
+                k.destroy(star);
+              });
+              this.shootingStar.onCollide("bird", (star) => {
+                k.destroy(star);
+              });
+            } else k.play("split-air", { speed: 1.5 });
 
             this.gameObj.play("split-star", {
               onEnd: () => {
@@ -314,7 +339,31 @@ export class Player {
       if (!this.gameObj.isGrounded() && this.heightDelta < 0) {
         if (this.isSpliting) {
           if (this.gameObj.curAnim() !== "split-star") {
-            k.play("split-air", { speed: 1.5 });
+            if (this.isFullEnemy) {
+              k.play("split-star");
+              this.shootingStar = k.add([
+                k.sprite("star", {
+                  anim: "star",
+                  flipX: this.direction === "right",
+                }),
+                k.area({ shape: new k.Rect(k.vec2(0), 18, 18) }),
+                k.pos(this.direction === "left" ? this.gameObj.pos.x - 80 : this.gameObj.pos.x + 80, this.gameObj.pos.y),
+                k.scale(2.5),
+                k.anchor("center"),
+                k.offscreen({ destroy: true }),
+                this.direction === "left" ? k.move(k.LEFT, 800) : k.move(k.RIGHT, 800),
+                "shootingStar",
+              ]);
+              this.shootingStar.onCollide("super", (star) => {
+                k.destroy(star);
+              });
+              this.shootingStar.onCollide("fish", (star) => {
+                k.destroy(star);
+              });
+              this.shootingStar.onCollide("bird", (star) => {
+                k.destroy(star);
+              });
+            } else k.play("split-air", { speed: 1.5 });
             this.gameObj.play("split-star", {
               onEnd: () => {
                 this.isSpliting = false;
@@ -337,7 +386,31 @@ export class Player {
         } else {
           if (this.isSpliting) {
             if (this.gameObj.curAnim() !== "split-star") {
-              k.play("split-air", { speed: 1.5 });
+              if (this.isFullEnemy) {
+                k.play("split-star");
+                this.shootingStar = k.add([
+                  k.sprite("star", {
+                    anim: "star",
+                    flipX: this.direction === "right",
+                  }),
+                  k.area({ shape: new k.Rect(k.vec2(0), 18, 18) }),
+                  k.pos(this.direction === "left" ? this.gameObj.pos.x - 80 : this.gameObj.pos.x + 80, this.gameObj.pos.y),
+                  k.scale(2.5),
+                  k.anchor("center"),
+                  k.offscreen({ destroy: true }),
+                  this.direction === "left" ? k.move(k.LEFT, 800) : k.move(k.RIGHT, 800),
+                  "shootingStar",
+                ]);
+                this.shootingStar.onCollide("super", (star) => {
+                  k.destroy(star);
+                });
+                this.shootingStar.onCollide("fish", (star) => {
+                  k.destroy(star);
+                });
+                this.shootingStar.onCollide("bird", (star) => {
+                  k.destroy(star);
+                });
+              } else k.play("split-air", { speed: 1.5 });
               this.gameObj.play("split-star", {
                 onEnd: () => {
                   this.isSpliting = false;

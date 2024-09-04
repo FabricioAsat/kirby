@@ -35,7 +35,11 @@ export class Fish {
         fish.enterState("launch");
       });
 
-      onSceneLeave(() => {
+      fish.onCollide("shootingStar", (fish) => {
+        k.destroy(fish);
+      });
+
+      k.onSceneLeave(() => {
         launch.cancel();
         fall.cancel();
       });
