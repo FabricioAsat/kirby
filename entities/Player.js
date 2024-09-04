@@ -540,6 +540,12 @@ export class Player {
     makeInhalable(this, "super");
     makeInhalable(this, "bird");
     makeInhalable(this, "fish");
+
+    this.gameObj.onCollide("door-2", () => {
+      k.onKeyPress("up", () => {
+        k.go("levelSelection");
+      });
+    });
   }
 
   resetBooleans() {

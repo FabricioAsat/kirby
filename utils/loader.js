@@ -34,6 +34,7 @@ import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.png";
 import level2Bg from "../assets/images/backgrounds/levels/level-2-bg.jpg";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
+import door2Sprite from "../assets/images/sprites/door2.png";
 import numbersSprites from "../assets/images/sprites/numbers.png";
 import enemyDestroySprites from "../assets/images/sprites/enemy-destroy.png";
 import inhaleEffect from "../assets/images/sprites/inhale-effect.png";
@@ -115,6 +116,14 @@ export const load = {
         "top-right-door": 3,
         "bottom-left-door": 0,
         "bottom-right-door": 1,
+      },
+    });
+    k.loadSprite("door-2", door2Sprite, {
+      sliceX: 2,
+      sliceY: 1,
+      anims: {
+        top: 0,
+        bottom: 1,
       },
     });
     k.loadSprite("star", starSprites, {

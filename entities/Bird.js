@@ -25,13 +25,13 @@ export class Bird {
     }
   }
 
-  setMovementPattern() {
+  setMovementPattern(maxTiles = 120) {
     for (const [index, bird] of this.birds.entries()) {
       bird.onUpdate(() => {
         bird.move(-this.speed, 0);
         bird.pos.y = this.pos[index].y + this.amplitude * Math.cos(bird.pos.x * this.frequency);
         if (bird.pos.x < 0) {
-          bird.pos.x = 48 * 120;
+          bird.pos.x = 48 * maxTiles;
         }
       });
       bird.onCollide("shootingStar", (bird) => {

@@ -59,5 +59,7 @@ export function generateLevelMapping(tileType) {
       k.body({ isStatic: true }),
       k.offscreen({ hide: true }),
     ],
+    "(": () => [k.sprite("door-2", { anim: "top" }), k.area({ shape: new k.Rect(k.vec2(0), 48, 48) }), k.offscreen({ hide: true }), "door-2"],
+    ")": () => [k.sprite("door-2", { anim: "bottom" }), k.area({ shape: new k.Rect(k.vec2(0), 48, 48) }), k.offscreen({ hide: true }), "door-2"],
   };
 }

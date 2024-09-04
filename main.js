@@ -96,7 +96,7 @@ const scenes = {
 
     fish.setMovementPattern();
     eSupers.setMovementPattern();
-    birds.setMovementPattern();
+    birds.setMovementPattern(120);
 
     kirby.update();
     kirby.enablePassthrough();
@@ -117,17 +117,30 @@ const scenes = {
     level2.drawBackground("level-2-bg");
     level2.drawMapLayout(level2Layout, level2Mappings, 48, 48, 1);
 
+    const fish = new Fish(
+      level2Config.fishPositions.map((fishPos) => fishPos()),
+      level2Config.fishAmplitudes
+    );
+    const eSupers = new E_Super(level2Config.eSuperPositions.map((superPos) => superPos()));
+    const birds = new Bird(level2Config.birdsPositions.map((superPos) => superPos()));
     const kirby = new Player(
       level2Config.xPos,
       level2Config.yPos,
       level2Config.kirbySpeed,
       level2Config.kirbyJumpForce,
       level2Config.kirbyLives,
-      "level2",
+      "level1",
       false
     );
+
+    fish.setMovementPattern();
+    eSupers.setMovementPattern();
+    birds.setMovementPattern(151);
+
     kirby.update();
     kirby.enablePassthrough();
+    kirby.checkCollisions();
+
     UI.displayHUDKirby(kirby);
 
     const camera = new Camera();
