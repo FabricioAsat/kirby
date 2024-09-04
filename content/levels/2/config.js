@@ -4,7 +4,7 @@ export const level2Config = {
   yPos: 350,
   kirbySpeed: 300,
   kirbyJumpForce: 600,
-  kirbyLives: 1,
+  kirbyLives: 2,
 
   fishPositions: [
     () => vec2(1448, 100 + 768 + (24 - 16) * 48),

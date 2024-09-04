@@ -35,7 +35,7 @@ export class Player {
     this.speed = speed;
     this.jumpForce = jumpForce;
     this.numberLives = numberLives;
-    this.health = 3;
+    this.health = 7;
     this.previousHeight = this.gameObj.pos.y;
     // Falta una variable, revisar luego.
   }
@@ -230,7 +230,7 @@ export class Player {
       setTimeout(() => {
         this.resetBooleans();
         this.numberLives--;
-        this.health = 3;
+        this.health = 7;
         this.gameObj.pos = k.vec2(this.initialXPos, this.initialYPos);
       }, 3000);
     }
