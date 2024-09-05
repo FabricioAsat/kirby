@@ -29,9 +29,11 @@ import runImage from "../assets/images/backgrounds/controls/run.png";
 import levelSelectionStage1Tileset from "../assets/images/sprites/level-selection-stage1-tileset.png";
 import level1Tileset from "../assets/images/sprites/level-1-tileset.png";
 import level2Tileset from "../assets/images/sprites/level-2-tileset.png";
+import level3Tileset from "../assets/images/sprites/level-3-tileset.png";
 import levelSelectionBg from "../assets/images/backgrounds/levels/level-selection-bg.png";
 import level1Bg from "../assets/images/backgrounds/levels/level-1-bg.png";
 import level2Bg from "../assets/images/backgrounds/levels/level-2-bg.jpg";
+import level3Bg from "../assets/images/backgrounds/levels/level-3-bg.jpg";
 import blockSprite from "../assets/images/sprites/block.png";
 import doorSprite from "../assets/images/sprites/door.png";
 import door2Sprite from "../assets/images/sprites/door2.png";
@@ -66,6 +68,8 @@ import mainMenuMusic from "../assets/sounds/main-menu.mp3";
 import levelSelectionMusic from "../assets/sounds/levelSelection.mp3";
 import level1Music from "../assets/sounds/level1.mp3";
 import level2Music from "../assets/sounds/level2.mp3";
+import level3Music from "../assets/sounds/level3.mp3";
+import level4Music from "../assets/sounds/level4.mp3";
 
 // Context
 import { k } from "../main";
@@ -105,6 +109,7 @@ export const load = {
     k.loadSprite("level-selection-bg", levelSelectionBg);
     k.loadSprite("level-1-bg", level1Bg);
     k.loadSprite("level-2-bg", level2Bg);
+    k.loadSprite("level-3-bg", level3Bg);
     k.loadSprite("block-sprite", blockSprite);
     k.loadSprite("kirby-lives", kirbyLives);
     k.loadSprite("kirby-health", kirbyHealth);
@@ -233,6 +238,27 @@ export const load = {
         "grass-3": 14,
       },
     });
+    k.loadSprite("level-3-tileset", level3Tileset, {
+      sliceX: 3,
+      sliceY: 5,
+      anims: {
+        "top-left-grass": 0,
+        "top-middle-grass": 1,
+        "top-right-grass": 2,
+        "middle-left-grass": 3,
+        "middle-middle-grass": 4,
+        "middle-right-grass": 5,
+        "bottom-left-grass": 6,
+        "bottom-middle-grass": 7,
+        "bottom-right-grass": 8,
+        "left-grass": 9,
+        "middle-grass": 10,
+        "right-grass": 11,
+        "grass-1": 12,
+        "grass-2": 13,
+        "grass-3": 14,
+      },
+    });
 
     // Animations
     k.loadSprite("kirby", kirbySprites, {
@@ -305,5 +331,7 @@ export const load = {
     k.loadSound("level-selection-music", levelSelectionMusic);
     k.loadSound("level-1-music", level1Music);
     k.loadSound("level-2-music", level2Music);
+    k.loadSound("level-3-music", level3Music);
+    k.loadSound("level-4-music", level4Music);
   },
 };

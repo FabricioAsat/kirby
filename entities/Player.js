@@ -464,6 +464,22 @@ export class Player {
         ) {
           k.go("level2");
         }
+        if (
+          Math.round(this.gameObj.pos.x) >= DOORS_POSITIONS.level3.xl &&
+          Math.round(this.gameObj.pos.x) <= DOORS_POSITIONS.level3.xr &&
+          Math.round(this.gameObj.pos.y) === DOORS_POSITIONS.level3.y &&
+          k.isKeyPressed("up")
+        ) {
+          k.go("level3");
+        }
+        if (
+          Math.round(this.gameObj.pos.x) >= DOORS_POSITIONS.level4.xl &&
+          Math.round(this.gameObj.pos.x) <= DOORS_POSITIONS.level4.xr &&
+          Math.round(this.gameObj.pos.y) === DOORS_POSITIONS.level4.y &&
+          k.isKeyPressed("up")
+        ) {
+          k.go("level4");
+        }
       }
     });
   }

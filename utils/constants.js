@@ -4,20 +4,19 @@ export const DOORS_POSITIONS = {
     xr: 250,
     y: 501,
   },
-
   level2: {
-    xl: 750,
-    xr: 790,
+    xl: 768,
+    xr: 816,
     y: 789,
   },
   level3: {
-    xl: 1850,
-    xr: 1900,
+    xl: 1872,
+    xr: 1920,
     y: 453,
   },
   level4: {
-    xl: 700,
-    xr: 750,
+    xl: 720,
+    xr: 768,
     y: 213,
   },
 };
