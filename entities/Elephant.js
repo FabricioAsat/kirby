@@ -17,7 +17,7 @@ export class Elephant {
       k.body(),
       k.state("idle", ["idle", "roll", "s-jump", "e-jump", "fall", "dance", "hurt", "dead"]),
       k.offscreen({ destroy: true }),
-      { speed: 450, health: 3, side: "left", patt: null, patt0Jumps: 0, patt1Jump: false, patt1WasCollided: false, endPattern: true },
+      { speed: 450, health: 1, side: "left", patt: null, patt0Jumps: 0, patt1Jump: false, patt1WasCollided: false, endPattern: true },
       "elephant",
     ]);
   }
@@ -46,7 +46,7 @@ export class Elephant {
         this.random = Math.floor(Math.random() * 10);
         this.boss.endPattern = false;
       }
-      await k.wait(1);
+      await k.wait(2.5);
 
       if (this.random % 2 === 0) {
         this.boss.patt = 0;
@@ -150,13 +150,15 @@ export class Elephant {
         this.boss.enterState("dead");
         return;
       }
-      if (this.boss.curAnim() !== "dance") this.boss.play("dance");
-      this.apple = new Apple(this.boss.pos);
-      kirby.gameObj.pos.x < this.boss.pos.x ? (this.apple.apple.side = "left") : (this.apple.apple.side = "right");
-      this.apple.setMovementPattern();
-      await k.wait(1.5);
-      this.resetVars();
-      this.boss.enterState("idle");
+      if (this.boss.curAnim() !== "dance") {
+        this.boss.play("dance");
+        this.apple = new Apple(this.boss.pos);
+        kirby.gameObj.pos.x < this.boss.pos.x ? (this.apple.apple.side = "left") : (this.apple.apple.side = "right");
+        this.apple.setMovementPattern();
+        await k.wait(1.5);
+        this.resetVars();
+        this.boss.enterState("idle");
+      }
     });
 
     this.boss.onStateEnter("hurt", async () => {
@@ -164,25 +166,29 @@ export class Elephant {
         this.boss.enterState("dead");
         return;
       }
-      if (this.boss.curAnim() !== "hurt") this.boss.play("hurt");
-      this.resetVars();
-      this.boss.health--;
-      this.boss.jump(200);
-      this.boss.collisionIgnore.push("kirby");
-      await k.wait(1);
-      this.boss.collisionIgnore.pop();
-      this.boss.enterState("idle");
+      if (this.boss.curAnim() !== "hurt") {
+        this.boss.play("hurt");
+        this.resetVars();
+        this.boss.health--;
+        this.boss.jump(200);
+        this.boss.collisionIgnore.push("kirby");
+        await k.wait(0.75);
+        this.boss.collisionIgnore.pop();
+        this.boss.enterState("idle");
+      }
     });
 
     this.boss.onStateEnter("dead", async () => {
-      if (this.boss.curAnim() !== "dead") this.boss.play("dead");
-      ambientMusic.stop();
-      ambientMusic = k.play("winning-music", { volume: 0.2, loop: false });
+      if (this.boss.curAnim() !== "dead") {
+        this.boss.play("dead");
+        ambientMusic.stop();
+        ambientMusic = k.play("winning-music", { volume: 0.2, loop: false });
 
-      this.boss.jump(500);
-      this.boss.collisionIgnore.push("kirby");
-      await k.wait(3);
-      k.destroy(this.boss);
+        this.boss.jump(300);
+        this.boss.collisionIgnore.push("kirby");
+        await k.wait(2);
+        k.destroy(this.boss);
+      }
     });
 
     this.boss.onCollide("shootingStar", (star) => {
@@ -199,7 +205,6 @@ export class Elephant {
     this.boss.patt1Jump = false;
     this.boss.patt1WasCollided = false;
     this.boss.endPattern = true;
-    
   }
 
   updateHUD(UI) {
