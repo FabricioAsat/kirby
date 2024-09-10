@@ -484,7 +484,7 @@ export class Player {
     });
   }
 
-  checkCollisions() {
+  checkCollisions(boss = {}) {
     async function substrackHealth(context) {
       if (context.isDead || !context.isVulnerable) return;
 
@@ -552,14 +552,29 @@ export class Player {
       k.destroy(bird);
       if (!this.isFullEnemy) k.play("enemy-dead", { volume: 0.25 });
     });
+    this.gameObj.onCollide("apple", (apple) => {
+      substrackHealth(this);
+      k.destroy(apple);
+      if (!this.isFullEnemy) k.play("enemy-dead", { volume: 0.25 });
+    });
+    this.gameObj.onCollide("elephant", async (elep) => {
+      substrackHealth(this);
+      if (!this.isFullEnemy) k.play("enemy-dead", { volume: 0.25 });
+      elep.collisionIgnore.push("kirby");
+      await k.wait(3);
+      elep.collisionIgnore.pop();
+    });
 
     makeInhalable(this, "super");
     makeInhalable(this, "bird");
     makeInhalable(this, "fish");
+    makeInhalable(this, "apple");
 
     this.gameObj.onCollide("door-2", () => {
       k.onKeyPress("up", () => {
-        k.go("levelSelection");
+        if (this.currentLevelScene === "level4") {
+          if (boss.boss.health === 0) k.go("levelSelection");
+        } else k.go("levelSelection");
       });
     });
   }

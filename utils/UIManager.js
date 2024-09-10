@@ -111,17 +111,51 @@ class UIManager {
     rectHUD.add([k.sprite("kirby-lives"), k.pos(250, 0), k.scale(1.5), k.anchor("left"), k.fixed()]);
 
     this.healthCountUI = {
-      0: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 0, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
-      1: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 1, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
-      2: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 2, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
-      3: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 3, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
-      4: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 4, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
-      5: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 5, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
-      6: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 6, 0), k.scale(0.75), k.fixed(), k.anchor("left"), k.fixed()]),
+      0: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 0, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+      1: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 1, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+      2: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 2, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+      3: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 3, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+      4: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 4, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+      5: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 5, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+      6: rectHUD.add([k.sprite("kirby-health"), k.pos(450 + 35 * 6, 0), k.scale(0.75), k.anchor("left"), k.fixed()]),
+    };
+  }
+
+  displayHUDBoss() {
+    const rectHUD = k.add([
+      k.rect(1280, 100),
+      k.pos(0, 50),
+      k.anchor("left"),
+      k.color(k.Color.fromHex("#000000")),
+      k.area(),
+      k.opacity(0.25),
+      k.fixed(),
+    ]);
+
+    rectHUD.add([k.sprite("phan-phan"), k.pos(300, -5), k.scale(0.70), k.anchor("left"), k.fixed()]);
+    this.bossHealthCountUI = {
+      0: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 0, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      1: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 1, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      2: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 2, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      3: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 3, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      4: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 4, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      5: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 5, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      6: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 6, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      7: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 7, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      8: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 8, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      9: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 9, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      10: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 10, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      11: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 11, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      12: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 12, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      13: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 13, 0), k.scale(1), k.anchor("left"), k.fixed()]),
+      14: rectHUD.add([k.sprite("kirby-health"), k.pos(400 + 50 * 14, 0), k.scale(1), k.anchor("left"), k.fixed()]),
     };
   }
 
   // ! Helpers
+  
+  
+  
   cuteMenuButtons(sprite, pos, sceneToChange, width = 700) {
     const button = k.add([
       k.rect(width, 75, { radius: 15 }), // Tamaño del botón (ancho, alto)

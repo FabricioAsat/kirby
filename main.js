@@ -15,6 +15,9 @@ import { Fish } from "./entities/Fish.js";
 import { E_Super } from "./entities/Super.js";
 import { Bird } from "./entities/Bird.js";
 import { level3Layout, level3Mappings } from "./content/levels/3/level3Layout.js";
+import { level4Layout, level4Mappings } from "./content/levels/4/level4Layout.js";
+import { level4Config } from "./content/levels/4/config.js";
+import { Elephant } from "./entities/Elephant.js";
 
 // Configuración básica de kaboom
 export const k = kaboom({
@@ -189,14 +192,48 @@ const scenes = {
 
     kirby.updateHUD(UI);
   },
-  level4: () => {},
+  level4: () => {
+    ambientMusic.stop();
+    ambientMusic = k.play("level-4-music", { volume: 0.2, loop: true });
+    k.setGravity(level4Config.gravity);
+    const level4 = new Level();
+    level4.drawBackground("level-4-bg");
+    level4.drawMapLayout(level4Layout, level4Mappings, 48, 48, 1);
+
+    const boss = new Elephant(k.vec2(1000, 100));
+
+    const kirby = new Player(
+      level4Config.xPos,
+      level4Config.yPos,
+      level4Config.kirbySpeed,
+      level4Config.kirbyJumpForce,
+      level4Config.kirbyLives,
+      "level4",
+      false
+    );
+
+    boss.setMovementPattern(kirby, ambientMusic);
+
+    kirby.update();
+    kirby.enablePassthrough();
+    kirby.checkCollisions(boss);
+
+    UI.displayHUDKirby(kirby);
+    UI.displayHUDBoss();
+
+    const camera = new Camera();
+    camera.attach(kirby, 28, 24);
+
+    boss.updateHUD(UI);
+    kirby.updateHUD(UI);
+  },
 };
 
 for (const key in scenes) {
   k.scene(key, scenes[key]);
 }
 
-k.go("limbo");
+k.go("level4");
 
 // * Test page
 
