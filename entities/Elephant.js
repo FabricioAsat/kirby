@@ -43,7 +43,7 @@ export class Elephant {
       }
       if (this.boss.curAnim() !== "idle") this.boss.play("idle");
       if (this.boss.endPattern) {
-        this.random = Math.floor(Math.random() * 10);
+        this.random = Math.floor(Math.random() * 10000);
         this.boss.endPattern = false;
       }
       await k.wait(2.5);
@@ -157,8 +157,8 @@ export class Elephant {
         this.apple = new Apple(this.boss.pos);
         kirby.gameObj.pos.x < this.boss.pos.x ? (this.apple.apple.side = "left") : (this.apple.apple.side = "right");
         this.apple.setMovementPattern();
-        await k.wait(1.5);
         this.resetVars();
+        await k.wait(1.5);
         this.boss.enterState("idle");
       }
     });
