@@ -1,4 +1,4 @@
-import kaboom from "kaboom";
+import kaboom from "kaboom"; 
 import { UI } from "./utils/UIManager.js";
 import { load } from "./utils/loader.js";
 import { Level } from "./utils/Level.js";
@@ -233,7 +233,7 @@ for (const key in scenes) {
   k.scene(key, scenes[key]);
 }
 
-k.go("level4");
+k.go("limbo");
 
 // * Test page
 

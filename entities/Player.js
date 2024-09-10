@@ -507,7 +507,6 @@ export class Player {
       k.play("hurt", { volume: 0.25 });
       context.wasHurt = true;
 
-      // console.log(context);
       for (let index = 0; index <= 15; index++) {
         await k.tween(context.gameObj.opacity, 0, 0.075, (val) => (context.gameObj.opacity = val), k.easings.linear);
         await k.tween(context.gameObj.opacity, 1, 0.075, (val) => (context.gameObj.opacity = val), k.easings.linear);

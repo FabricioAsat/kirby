@@ -154,7 +154,6 @@ export class Elephant {
       this.apple = new Apple(this.boss.pos);
       kirby.gameObj.pos.x < this.boss.pos.x ? (this.apple.apple.side = "left") : (this.apple.apple.side = "right");
       this.apple.setMovementPattern();
-      console.log(this.apple.apple);
       await k.wait(1.5);
       this.resetVars();
       this.boss.enterState("idle");
