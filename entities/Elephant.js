@@ -17,7 +17,7 @@ export class Elephant {
       k.body(),
       k.state("idle", ["idle", "roll", "s-jump", "e-jump", "fall", "dance", "hurt", "dead"]),
       k.offscreen({ destroy: true }),
-      { speed: 450, health: 3, side: "left", patt: null, patt0Jumps: 0, patt1Jump: false, patt1WasCollided: false, endPattern: true },
+      { speed: 450, health: 15, side: "left", patt: null, patt0Jumps: 0, patt1Jump: false, patt1WasCollided: false, endPattern: true },
       "elephant",
     ]);
   }
