@@ -17,7 +17,7 @@ export class Elephant {
       k.body(),
       k.state("idle", ["idle", "roll", "s-jump", "e-jump", "fall", "dance", "hurt", "dead"]),
       k.offscreen({ destroy: true }),
-      { speed: 450, health: 1, side: "left", patt: null, patt0Jumps: 0, patt1Jump: false, patt1WasCollided: false, endPattern: true },
+      { speed: 450, health: 3, side: "left", patt: null, patt0Jumps: 0, patt1Jump: false, patt1WasCollided: false, endPattern: true },
       "elephant",
     ]);
   }
@@ -62,8 +62,8 @@ export class Elephant {
         this.boss.enterState("dead");
         return;
       }
-      if (this.boss.curAnim() !== "roll") this.boss.play("roll");
-      this.boss.jump(500);
+      if (this.boss.curAnim() !== "roll") {this.boss.play("roll");
+      this.boss.jump(500);}
     });
     this.boss.onStateUpdate("roll", () => {
       if (this.boss.health === 0) {
@@ -92,12 +92,14 @@ export class Elephant {
         this.boss.enterState("dead");
         return;
       }
-      if (this.boss.curAnim() !== "s-jump") this.boss.play("s-jump");
-      if (this.boss.patt === 0) {
-        await k.wait(0.05);
-        this.boss.jump(750);
-        this.boss.patt0Jumps++;
-        this.boss.enterState("e-jump");
+      if (this.boss.curAnim() !== "s-jump") {
+        this.boss.play("s-jump");
+        if (this.boss.patt === 0) {
+          await k.wait(0.05);
+          this.boss.jump(750);
+          this.boss.patt0Jumps++;
+          this.boss.enterState("e-jump");
+        }
       }
     });
 
