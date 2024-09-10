@@ -199,6 +199,7 @@ export class Elephant {
     this.boss.patt1Jump = false;
     this.boss.patt1WasCollided = false;
     this.boss.endPattern = true;
+    
   }
 
   updateHUD(UI) {
